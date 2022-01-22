@@ -1,0 +1,15 @@
+#include<stdio.h>
+
+int main(void) {
+
+	int t, a, b;
+	int count;
+	scanf_s("%d", &t);
+	count = t;
+	while (t--) {
+		scanf_s("%d %d", &a, &b);
+		printf("Case #%d: %d + %d = %d\n", count - t, a, b, a+b);
+	}
+
+	return 0;
+}
