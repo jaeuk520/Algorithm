@@ -1,0 +1,18 @@
+#include <string>
+#include <iostream>
+using namespace std;
+
+int main(void) {
+
+	string str;
+
+	while (1) {
+		getline(cin, str);
+		if (cin.eof()) {
+			break;
+		}
+		else cout << str << "\n";
+	}
+
+	return 0;
+}
