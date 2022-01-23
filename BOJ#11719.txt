@@ -1,0 +1,12 @@
+#include <stdio.h>
+using namespace std;
+
+int main(void) {
+	
+	char s[101];
+
+	while(gets_s(s)) {
+		puts(s);
+	}
+
+}
