@@ -1,0 +1,22 @@
+#include <cstdio>
+using namespace std;
+
+int a[1000000];
+
+int main(void) {
+
+	int n;
+	int min_idx, max_idx = 0;
+	int min, max = 0;
+	scanf("%d", &n);
+
+	for (int i = 0; i < n; i++) {
+		scanf("%d", &a[i]);
+		if (i == 0) { min = a[i]; max = a[i]; min_idx = 0; max_idx = 0; }
+		else if (a[i] > a[max_idx]) { max = a[i]; max_idx = i; }
+		else if (a[i] < a[min_idx]) { min = a[i]; min_idx = i; }
+	}
+	printf("%d %d", min, max);
+
+	return 0;
+}
