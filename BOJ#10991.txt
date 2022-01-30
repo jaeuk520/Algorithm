@@ -1,0 +1,30 @@
+#include <cstdio>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	int num = 1;
+	bool flag = false;
+	scanf_s("%d", &n);
+	
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n + i - 1; j++) {
+			if (!flag) {
+				for (int m = n; m > i; m--) {
+					printf(" ");
+					j++;
+				}
+				flag = true;
+			}
+			if (num % 2 == 0) printf(" ");
+			else printf("*");
+			num++;
+		}
+		printf("\n");
+		num = 1;
+		flag = false;
+	}
+
+	return 0;
+}
