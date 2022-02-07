@@ -1,0 +1,42 @@
+#include <cstdio>
+using namespace std;
+
+int d[3][100001] = { 0 };
+
+int main(void) {
+
+	int t, n, score;
+	int i = 1;
+	int sum1 = 0;
+	int sum2 = 0;
+	scanf_s("%d", &t);
+	while (t--) {
+		scanf_s("%d", &n);
+		for (i = 1; i <= n; i++) {
+			scanf_s("%d", &score);
+			d[1][i] = score;
+		}
+		for (i = 1; i <= n; i++) {
+			scanf_s("%d", &score);
+			d[2][i] = score;
+		}
+		for (i = 2; i <= n; i++) {
+			if (d[1][i] + d[2][i - 1] > d[1][i] + d[2][i - 2]) {
+				d[1][i] = d[1][i] + d[2][i - 1];
+			}
+			else {
+				d[1][i] = d[1][i] + d[2][i - 2];
+			}
+
+			if (d[2][i] + d[1][i - 1] > d[2][i] + d[1][i - 2]) {
+				d[2][i] = d[2][i] + d[1][i - 1];
+			}
+			else {
+				d[2][i] = d[2][i] + d[1][i - 2];
+			}
+		}
+		printf("%d\n", d[1][n] > d[2][n] ? d[1][n] : d[2][n]);
+	}
+
+	return 0;
+}
