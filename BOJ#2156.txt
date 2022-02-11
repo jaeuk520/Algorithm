@@ -1,0 +1,35 @@
+#include <cstdio>
+using namespace std;
+
+int d[10001] = { 0 };
+int a[10001] = { 0 };
+
+int max(int x, int y, int z) {
+	if (x > y) {
+		return (x > z) ? x : z;
+	}
+	else {
+		return	(y > z) ? y : z;
+	}
+}
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+
+	for (int i = 1; i <= n; i++) {
+		scanf_s("%d", &a[i]);
+	}
+
+	d[1] = a[1];
+	d[2] = d[1] + a[2];
+
+	for (int i = 3; i <= n; i++) {
+		d[i] = max(d[i - 1], d[i - 2] + a[i], d[i - 3] + a[i - 1] + a[i]);
+	}
+
+	printf("%d", d[n]);
+
+	return 0;
+}
