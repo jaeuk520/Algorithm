@@ -1,0 +1,29 @@
+#include<cstdio>
+
+int d[100001] = { 0 };
+int a[100001] = { 0 };
+
+int main(void) {
+
+	int n;
+	int max = -1001;
+	scanf_s("%d", &n);
+
+	for (int i = 1; i <= n; i++) {
+		scanf_s("%d", &a[i]);
+		d[i] = a[i];
+		if (d[i - 1] + a[i] > a[i] && i != 1) {
+			d[i] = d[i - 1] + a[i];
+		}
+	}
+
+	for (int i = 1; i <= n; i++) {
+		if (d[i] > max) {
+			max = d[i];
+		}
+	}
+
+	printf("%d", max);
+
+	return 0;
+}
