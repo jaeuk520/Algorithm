@@ -1,0 +1,23 @@
+#include<cstdio>
+
+int d[100001]={0};
+
+int main(void) {
+
+	int n, min;
+	scanf_s("%d", &n);
+
+	for (int i = 1; i <= n; i++) {
+		min = 2000000000;
+		for (int k = 1; i - k * k >= 0; k++) {
+			if (d[i - k * k] + 1 < min) {
+				d[i] = d[i - k * k] + 1;
+				min = d[i];
+			}
+		}
+	}
+
+	printf("%d", d[n]);
+
+	return 0;
+}
