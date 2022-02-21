@@ -1,0 +1,21 @@
+#include<cstdio>
+
+int d[1001] = { 0 };
+int p[10001];
+
+int main(void) {
+
+	int n;
+	int max = 0;
+	scanf_s("%d", &n);
+	for (int i = 1; i <= n; i++) {
+		scanf_s("%d", &p[i]);
+
+		for (int k = 1; k <= i; k++) {
+			if (d[i - k] + p[k] > max) max = d[i - k] + p[k];
+		}
+		d[i] = max;
+	}
+	printf("%d", max);
+	return 0;
+}
