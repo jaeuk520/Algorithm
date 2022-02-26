@@ -1,0 +1,54 @@
+#include<cstdio>
+#include<stdlib.h>
+
+int w[101][101][101];
+
+int main(void) {
+
+	int a, b, c;
+
+	for (a = 0; a <= 100; a++) {
+		for (b = 0; b <= 100; b++) {
+			for (c = 0; c <= 100; c++) {
+				if (a <= 50 || b <= 50 || c <= 50) {
+					w[a][b][c] = 1;
+				}
+			}
+		}
+	}
+
+	for (a = 51; a <= 70; a++) {
+		for (b = 51; b <= 70; b++) {
+			for (c = 51; c <= 70; c++) {
+				if (a < b && b < c) {
+					w[a][b][c] = w[a][b][c - 1] + w[a][b - 1][c - 1] - w[a][b - 1][c];
+				}
+				else {
+					w[a][b][c] = w[a - 1][b][c] + w[a - 1][b - 1][c] + w[a - 1][b][c - 1] - w[a - 1][b - 1][c - 1];
+				}
+			}
+		}
+	}
+
+	for (a = 51; a <= 100; a++) {
+		for (b = 51; b <= 100; b++) {
+			for (c = 51; c <= 100; c++) {
+				if (a > 70 || b > 70 || c > 70) {
+					w[a][b][c] = w[70][70][70];
+				}
+			}
+		}
+	}
+
+	while (1) {
+		scanf_s("%d %d %d", &a, &b, &c);
+		if (a == -1 && b == -1 && c == -1) {
+			exit(0);
+		}
+		else {
+			printf("w(%d, %d, %d) = %d\n", a, b, c, w[a+50][b+50][c+50]);
+		}
+	}
+
+	return 0;
+}
