@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int n = 10;
+int target[10] = {7, 5, 9, 0, 3, 1, 6, 2, 4, 8};
+
+int main(void) {
+	for (int i = 1; i < n; i++) {
+		for (int j = i;  j > 0; j--) {
+			if(target[j] < target[j - 1]) {
+				swap(target[j], target[j - 1]);	   //왼쪽 수와 비교하여 왼쪽 수보다 작으면 swap
+			}
+			else break;    //왼쪽 수와 비교하여 왼쪽 수보다 작으면 제자리
+		}
+	}
+	for(int i = 0; i < n; i++) {
+		cout << target[i] << ' ';
+	}
+	return 0;
+}
