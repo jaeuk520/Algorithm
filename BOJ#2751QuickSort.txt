@@ -1,0 +1,42 @@
+#include <cstdio>
+
+int arr[1000001];
+
+void swap(int a, int b) {
+	int temp = 0;
+	temp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = temp;
+}
+
+void quickSort(int start, int end) {
+	if (start >= end) return;
+	int pivot = start;
+	int left = start + 1;
+	int right = end;
+	while (left <= right) {
+		while (left <= end && arr[left] <= arr[pivot]) left++;
+		while (right > start && arr[right] >= arr[pivot]) right--;
+		if (left > right) swap(pivot, right);
+		else swap(left, right);
+	}
+	quickSort(start, right - 1);
+	quickSort(right + 1, end);
+}
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+	for (int i = 1; i <= n; i++) {
+		scanf_s("%d", &arr[i]);
+	}
+
+	quickSort(1, n);
+
+	for (int i = 1; i <= n; i++) {
+		printf("%d\n", arr[i]);
+	}
+
+	return 0;
+}
