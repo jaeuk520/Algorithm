@@ -1,0 +1,22 @@
+#include <algorithm>
+#include <cstdio>
+using namespace std;
+
+int arr[1000000];
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &arr[i]);
+	}
+
+	sort(arr, arr + n);
+	for (int i = 0; i < n; i++) {
+		printf("%d\n", arr[i]);
+	}
+
+	return 0;
+}
