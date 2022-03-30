@@ -1,0 +1,25 @@
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main(void) {
+
+	vector<pair<int, int>> v;
+	int n, x, y;
+
+	scanf_s("%d", &n);
+
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d %d", &x, &y);
+		v.push_back(pair<int, int>(x, y));
+	}
+
+	sort(v.begin(), v.end());
+
+	for (int i = 0; i < n; i++) {
+		printf("%d %d\n", v[i].first, v[i].second);
+	}
+
+	return 0;
+}
