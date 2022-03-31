@@ -1,0 +1,31 @@
+// 국어 높은순, 영어 낮은순, 수학 높은순, 이름 사전순 (대문자먼저)
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+
+bool compare(pair<string, pair<int, pair<int, int>>> a, pair<string, pair<int, pair<int, int>>> b) {
+	if (a.second.first == b.second.first && a.second.second.first == b.second.second.first && a.second.second.second == b.second.second.second) return a.first < b.first;
+	else if (a.second.first == b.second.first && a.second.second.first == b.second.second.first) return a.second.second.second > b.second.second.second;
+	else if (a.second.first == b.second.first) return a.second.second.first < b.second.second.first;
+	else return a.second.first > b.second.first;
+}
+
+int main(void) {
+
+	int n;
+	int korScore, engScore, mathScore;
+	string name;
+	vector<pair<string, pair<int, pair<int, int>>>> v;
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> name >> korScore >> engScore >> mathScore;
+		v.push_back(pair<string, pair<int, pair<int, int>>>(name, make_pair(korScore, make_pair(engScore, mathScore))));
+	}
+	sort(v.begin(), v.end(), compare);
+	for (int i = 0; i < n; i++) {
+		cout << v[i].first << "\n";
+	}
+	return 0;
+}
