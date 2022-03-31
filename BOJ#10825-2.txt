@@ -1,0 +1,40 @@
+// 국어 높은순, 영어 낮은순, 수학 높은순, 이름 사전순 (대문자먼저)
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct student {
+	string name;
+	int korScore, engScore, mathScore;
+};
+
+bool compare(student a, student b) {
+	if (a.korScore == b.korScore) {
+		if (a.engScore == b.engScore) {
+			if (a.mathScore == b.mathScore) {
+				return a.name < b.name;
+			}
+			return a.mathScore > b.mathScore;
+		}
+		return a.engScore < b.engScore;
+	}
+	return a.korScore > b.korScore;
+}
+
+int main(void) {
+
+	int n;
+	cin >> n;
+	vector<student> v(n);
+	for (int i = 0; i < n; i++) {
+		cin >> v[i].name >> v[i].korScore >> v[i].engScore >> v[i].mathScore;
+	}
+	sort(v.begin(), v.end(), compare);
+	for (int i = 0; i < n; i++) {
+		cout << v[i].name << "\n";
+	}
+
+	return 0;
+}
