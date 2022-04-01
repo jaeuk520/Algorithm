@@ -1,0 +1,64 @@
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	int i = 0;
+	scanf_s("%d", &n);
+	vector<long long> v(n);
+	for (i = 0; i < n; i++) {
+		scanf_s("%lld", &v[i]);
+	}
+	sort(v.begin(), v.end());
+	i = 0;
+	long long num;
+	long long maxNum;
+	int cnt = 0;
+	int maxCnt = 0;
+	while (i < n) {
+		if (i == 0) {
+			num = v[i];
+			cnt++;
+			i++;
+		}
+		else {
+			if (v[i] == v[i - 1]) {
+				cnt++;
+				i++;
+			} 
+			else if (v[i] != v[i - 1]) {
+				if (maxCnt == 0) {
+					maxCnt = cnt;
+					maxNum = num;
+					cnt = 1;
+					num = v[i];
+					i++;
+				}
+				else if (maxCnt != 0) {
+					if (cnt > maxCnt) {
+						maxCnt = cnt;
+						maxNum = num;
+						cnt = 1;
+						num = v[i];
+						i++;
+					}
+					else {
+						cnt = 1;
+						num = v[i];
+						i++;
+					}
+				}
+			}
+		}
+	}
+	if (cnt > maxCnt) {
+		maxNum = num;
+	}
+
+	printf("%lld", maxNum);
+
+	return 0;
+}
