@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <algorithm>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+bool compare(pair<int, int> a, pair<int, int> b) {
+	return a.second < b.second;
+}
+
+int main(void) {
+
+	int n, m;
+	int mx, my;
+	int sumX = 0;
+	int sumY = 0;
+	scanf_s("%d %d", &n, &m);
+	vector<pair<int, int>> v(m);
+	for (int i = 0; i < m; i++) {
+		scanf_s("%d %d", &v[i].first, &v[i].second);
+	}
+	sort(v.begin(), v.end());
+	mx = v[m / 2].first;
+	sort(v.begin(), v.end(), compare);
+	my = v[m / 2].second;
+	
+	for (int i = 0; i < m; i++) {
+		sumX += abs(mx - v[i].first);
+		sumY += abs(my - v[i].second);
+	}
+
+	printf("%d", sumX + sumY);
+
+	return 0;
+}
