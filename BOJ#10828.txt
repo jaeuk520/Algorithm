@@ -1,0 +1,61 @@
+#include <stack>
+#include <cstdio>
+#include <string>
+#include <iostream>
+using namespace std;
+
+stack <int> s;
+
+void operateStack(int num, string x) {
+	switch (num) {
+	case 1: {
+		int n;
+		n = stoi(x);
+		s.push(n);
+		break;
+	}
+	case 2: {
+		if (s.empty()) { printf("-1\n");}
+		else { printf("%d\n", s.top()); s.pop();}
+		break;
+	}
+	case 3: {
+		cout << s.size() << "\n";
+		break;
+	}
+	case 4: {
+		if (s.empty()) printf("1\n");
+		else printf("0\n");
+		break;
+	}
+	case 5: {
+		if (s.empty()) printf("-1\n");
+		else printf("%d\n", s.top());
+		break;
+	}
+	}
+}
+
+int main(void) {
+
+	int n;
+	string str;
+	int num;
+	string x = "0";
+	scanf_s("%d", &n);
+	cin.ignore();
+	for (int i = 1; i <= n; i++) {
+		getline(cin, str);
+		if (str == "pop") num = 2;
+		else if (str == "size") num = 3;
+		else if (str == "empty") num = 4;
+		else if (str == "top") num = 5;
+		else { 
+			num = 1;
+			x = str.substr(5, 100000);
+		}
+		operateStack(num, x);
+	}
+
+	return 0;
+}
