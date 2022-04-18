@@ -1,0 +1,35 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int main(void) {
+
+	stack <char> s;
+	string str;
+	int count = 0;
+	cin >> str;
+	for (int i = 0; i < str.length(); i++) {
+		switch (str[i]) {
+		case '(': {
+			if (str[i + 1] == '(') {
+				count++;
+				s.push('(');
+			}
+			else if (str[i + 1] == ')') {
+				count += s.size();
+				i++;
+			}
+			break;
+		}
+		case ')': {
+			if (s.top() == '(') s.pop();
+			break;
+		}
+		}
+	}
+
+	printf("%d", count);
+
+	return 0;
+}
