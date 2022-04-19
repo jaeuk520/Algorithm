@@ -1,0 +1,58 @@
+#include <deque>
+#include <iostream>
+#include <string>
+using namespace std;
+
+deque <int> dq;
+
+void popFront() {
+	if (dq.empty()) cout << "-1\n";
+	else {
+		cout << dq.front() << "\n";
+		dq.pop_front();
+	}
+}
+
+void popBack() {
+	if (dq.empty()) cout << "-1\n";
+	else {
+		cout << dq.back() << "\n";
+		dq.pop_back();
+	}
+}
+
+void empty() {
+	if (dq.empty()) cout << "1\n";
+	else cout << "0\n";
+}
+
+void front() {
+	if (dq.empty()) cout << "-1\n";
+	else cout << dq.front() << "\n";
+}
+
+void back() {
+	if (dq.empty()) cout << "-1\n";
+	else cout << dq.back() << "\n";
+}
+
+int main(void) {
+
+	int n, x;
+	string s;
+	
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> s;
+		if (s == "push_front") { cin >> x; dq.push_front(x); }
+		else if (s == "push_back") { cin >> x; dq.push_back(x); }
+		else if (s == "pop_front") popFront();
+		else if (s == "pop_back") popBack();
+		else if (s == "size") cout << dq.size() << "\n";
+		else if (s == "empty") empty();
+		else if (s == "front") front();
+		else if (s == "back") back();
+	}
+
+	return 0;
+}
