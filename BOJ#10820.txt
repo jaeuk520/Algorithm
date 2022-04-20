@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void) {
+
+	int smallLetter = 0;
+	int capitalLetter = 0;
+	int num = 0;
+	int space = 0;
+	string s;
+	
+	while (getline(cin, s)) {
+		for (int j = 0; j < s.length(); j++) {
+			if (s[j] - 'a' >= 0 && s[j] - 'a' <= 25) smallLetter += 1;
+			else if (s[j] - 'A' >= 0 && s[j] - 'A' <= 25) capitalLetter += 1;
+			else if (s[j] - '0' >= 0 && s[j] - '0' <= 9) num += 1;
+			else if (s[j] == ' ') space += 1;
+		}
+		cout << smallLetter << " " << capitalLetter << " " << num << " " << space << "\n";
+		smallLetter = 0; capitalLetter = 0; num = 0; space = 0;
+	}
+
+	return 0;
+}
