@@ -1,0 +1,15 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main(void) {
+
+	string A, B, C, D;
+	long long num1, num2;
+	cin >> A >> B >> C >> D;
+	num1 = stoll(A + B);
+	num2 = stoll(C + D);
+	cout << num1 + num2;
+
+	return 0;
+} 
