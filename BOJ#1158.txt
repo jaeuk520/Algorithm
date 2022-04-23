@@ -1,29 +1,28 @@
 #include <stdio.h>
-#include <vector>
+#include <queue>
 using namespace std;
 
 int main(void) {
 
 	int n, k;
-	int count = 1;
 	scanf_s("%d %d", &n, &k);
-	vector<pair<int, bool>> v(n);
-	vector<int> ans;
-	for (int i = 0; i < n; i++) {
-		v[i].first = i + 1;
-		v[i].second = true;
-	}
-	while (ans.size() < n) {
-		for (int i = 0; i < n; i++) {
-			if (v[i].second) {
-				if (count != k) count++;
-				else { v[i].second = false; count = 1; ans.push_back(v[i].first); }
+	queue<int> q;
+	for (int i = 1; i <= n; i++) q.push(i);
+	printf("<");
+	int i = 0;
+	while (!q.empty()) {
+		if (i != 0) {printf(", ");}
+		for (int i = 1; i <= k; i++) {
+			if (i == k) {
+				printf("%d", q.front());
+				q.pop();
+			}
+			else {
+				q.push(q.front());
+				q.pop();
 			}
 		}
-	}
-	for (int i = 0; i < n; i++) {
-		if (i == 0) printf("<%d", ans[i]);
-		else printf(", %d", ans[i]);
+		i++;
 	}
 	printf(">");
 
