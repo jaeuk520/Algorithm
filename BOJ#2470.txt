@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+#include <stdlib.h>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	int sum;
+	int min = -1;
+	int acid = 0;
+	int al = 0;
+	scanf_s("%d", &n);
+	vector<pair<int, bool>> v(n);
+	//true == acid
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &v[i].first);
+		if (v[i].first > 0) v[i].second = true;
+		else if(v[i].first < 0) {
+			v[i].first = abs(v[i].first);
+			v[i].second = false;
+		}
+	}
+	sort(v.begin(), v.end());
+	for (int i = 1; i < n; i++) {
+		if(v[i].second != v[i - 1].second) {
+			sum = v[i].first - v[i - 1].first;
+			if (min == -1) {
+				min = sum;
+				if (v[i].second) {
+					acid = v[i].first;
+					al = v[i - 1].first;
+				}
+				else {
+					acid = v[i - 1].first;
+					al = v[i].first;
+				}
+			}
+			else if (min != -1 && sum < min) {
+				min = sum;
+				if (v[i].second) {
+					acid = v[i].first;
+					al = v[i - 1].first;
+				}
+				else {
+					acid = v[i - 1].first;
+					al = v[i].first;
+				}
+			}
+		}
+	}
+	if (v[0].first == 0 && v[1].first == 0) {
+		printf("%d %d", v[0].first, v[1].first);
+	}
+	else if (min == -1 && v[0].second) {
+		printf("%d %d", v[0].first, v[1].first);
+	}
+	else if (min == -1 && !v[0].second) {
+		printf("%d %d", -1 * v[1].first, -1 * v[0].first);
+	}
+	else {
+		printf("%d %d", -1 * al, acid);
+	}
+
+	return 0;
+}
