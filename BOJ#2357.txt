@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <vector>
+using namespace std;
+
+int arr[100000];
+int minSeg[4 * 100000];
+int maxSeg[4 * 100000];
+
+int min(int a, int b) {
+	return a < b ? a : b;
+}
+
+int max(int a, int b) {
+	return a > b ? a : b;
+}
+
+int initMinSeg(int start, int end, int node) {
+	if (start == end) return minSeg[node] = arr[start];
+	int mid = (start + end) / 2;
+	return minSeg[node] = min(initMinSeg(start, mid, node * 2), initMinSeg(mid + 1, end, node * 2 + 1));
+}
+
+int initMaxSeg(int start, int end, int node) {
+	if (start == end) return maxSeg[node] = arr[start];
+	int mid = (start + end) / 2;
+	return maxSeg[node] = max(initMaxSeg(start, mid, node * 2), initMaxSeg(mid + 1, end, node * 2 + 1));
+}
+
+int findMin(int start, int end, int node, int left, int right) {
+	if (left > end || start > right) return 1000000000;
+	if (left <= start && end <= right) return minSeg[node];
+	int mid = (start + end) / 2;
+	return min(findMin(start, mid, node * 2, left, right), findMin(mid + 1, end, node * 2 + 1, left, right));
+}
+
+int findMax(int start, int end, int node, int left, int right) {
+	if (left > end || start > right) return 0;
+	if (left <= start && end <= right) return maxSeg[node];
+	int mid = (start + end) / 2;
+	return max(findMax(start, mid, node * 2, left, right), findMax(mid + 1, end, node * 2 + 1, left, right));
+}
+
+int main(void) {
+
+	int n, m;
+	int a, b;
+	scanf_s("%d %d", &n, &m);
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &arr[i]);
+	}
+	initMinSeg(0, n - 1, 1);
+	initMaxSeg(0, n - 1, 1);
+	for (int i = 0; i < m; i++) {
+		scanf_s("%d %d", &a, &b);
+		printf("%d %d\n", findMin(0, n - 1, 1, a - 1, b - 1), findMax(0, n - 1, 1, a - 1, b - 1));
+	}
+
+	return 0;
+}
