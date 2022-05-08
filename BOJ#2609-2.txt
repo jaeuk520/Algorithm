@@ -1,0 +1,19 @@
+#include <stdio.h>
+using namespace std;
+
+int gcm(int a, int b) {
+	if (a % b == 0) return b;
+	return gcm(b, a % b);
+}
+
+int main(void) {
+
+	int a, b;
+	int divisor;
+	scanf_s("%d %d", &a, &b);
+	divisor = gcm(a, b);
+	printf("%d\n", divisor);
+	printf("%d", a * b / divisor);
+
+	return 0;
+}
