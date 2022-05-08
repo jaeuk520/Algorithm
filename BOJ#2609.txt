@@ -1,0 +1,34 @@
+#include <stdio.h>
+using namespace std;
+
+int gmf(int a, int b) {
+
+	int max = a > b ? a : b;
+	int min = a < b ? a : b;
+	int divisor;
+	
+	for (int i = 1; i <= min; i++) {
+		if (min % i == 0) {
+			divisor = min / i;
+			if (max % divisor == 0) {
+				return divisor;
+			}
+		}
+	}
+}
+
+int lcm(int divisor, int a, int b) {
+	return (a / divisor) * (b / divisor) * divisor;
+}
+
+int main(void) {
+
+	int a, b;
+	int divisor;
+	scanf_s("%d %d", &a, &b);
+	divisor = gmf(a, b);
+	printf("%d\n", divisor);
+	printf("%d", lcm(divisor, a, b));
+
+	return 0;
+}
