@@ -1,0 +1,29 @@
+#include <stack>
+#include <stdio.h>
+using namespace std;
+
+int main(void) {
+
+	stack<char> s;
+	int n, b;
+	int mod;
+	scanf_s("%d %d", &n, &b);
+	while (n >= b) {
+		if (n % b >= 10 && n % b <= 35) {
+			s.push('A' + (n % b) - 10);
+		}
+		else {
+			s.push('0' + n % b);
+		}
+		n /= b;
+	}
+	if (n >= 10 && n <= 35) s.push('A' + n - 10);
+	else s.push('0' + n);
+
+	while (!s.empty()) {
+		printf("%c", s.top());
+		s.pop();
+	}
+
+	return 0;
+}
