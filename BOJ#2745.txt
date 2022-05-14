@@ -1,0 +1,23 @@
+#include <iostream>
+#include <string>
+#include <math.h>
+using namespace std;
+
+int main(void) {
+
+	string n;
+	int b;
+	cin >> n >> b;
+	int num = 0;
+	for (int i = n.length() - 1; i >= 0; i--) {
+		if (n[n.length() - i - 1] >= '0' && n[n.length() - i - 1] <= '9') {
+			num += (n[n.length() - i - 1] - '0') * pow(b, i);
+		}
+		else if (n[n.length() - i - 1] >= 'A' && n[n.length() - i - 1] <= 'Z') {
+			num += (n[n.length() - i - 1] - 'A' + 10) * pow(b, i);
+		}
+	}
+	printf("%d", num);
+
+	return 0;
+}
