@@ -1,0 +1,30 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main(void) {
+
+	string num;
+	int temp;
+	stack<int> s;
+	cin >> num;
+	for (int i = num.length() - 1; i >= 0; i--) {
+		temp = num[i] - '0';
+		while (temp >= 2) {
+			s.push(temp % 2);
+			temp /= 2;
+		}
+		s.push(temp);
+		if (i != 0) {
+			while (s.size() % 3 != 0) {
+				s.push(0);
+			}
+		}
+	}
+	while (s.size() != 0) {
+		printf("%d", s.top());
+		s.pop();
+	}
+
+	return 0;
+}
