@@ -1,0 +1,33 @@
+#include <stack>
+#include <stdio.h>
+using namespace std;
+
+int main(void) {
+
+	int num;
+	scanf_s("%d", &num);
+	stack<int> s;
+
+	while (num != 1 && num != 0) {
+		if (num % 2 == 0 || num % -2 == 0) {
+			s.push(0);
+			num /= -2;
+		}
+		else if (num % 2 != 0 || num % -2 != 0) {
+			s.push(1);
+			num -= 1;
+			num /= -2;
+		}
+	}
+
+	if (num != 0) {
+		s.push(1);
+		while (!s.empty()) {
+			printf("%d", s.top());
+			s.pop();
+		}
+	} else printf("0");
+	
+
+	return 0;
+}
