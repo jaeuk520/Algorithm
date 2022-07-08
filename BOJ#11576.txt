@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cstdio>
+#include <math.h>
+#include <stack>
+using namespace std;
+
+int main(void) {
+
+	stack<int> s;
+	int a, b, m, num;
+	scanf_s("%d %d", &a, &b);
+	scanf_s("%d", &m);
+	int sum = 0;
+	while (m) {
+		scanf_s("%d", &num);
+		sum += num * pow(a, m - 1);
+		m--;
+	}
+	
+	while (sum != 0) {
+		s.push(sum % b);
+		sum /= b;
+	}
+	
+	while (!s.empty()) {
+		printf("%d ", s.top());
+		s.pop();
+	}
+
+	return 0;
+}
