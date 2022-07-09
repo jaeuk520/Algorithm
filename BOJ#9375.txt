@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+bool compare(pair<string, string> a, pair<string, string> b) {
+	return a.second < b.second;
+}
+
+int main(void) {
+
+	int t;
+
+	scanf_s("%d", &t);
+	while (t--) {
+		int n;
+		int count = 1;
+		int sum = 1;
+		scanf_s("%d", &n);
+		if (n == 0) {
+			// 의상이 0개이거나 1개인 경우
+			printf("%d\n", n);
+			continue;
+		}
+		vector<pair<string, string>> v(n);
+		vector<int> type;
+		for (int i = 0; i < n; i++) {
+			cin >> v[i].first >> v[i].second;
+		}
+		sort(v.begin(), v.end(), compare);
+		for (int i = 1; i < n; i++) {
+			if (v[i].second == v[i - 1].second) {
+				count++;
+			}
+			else if (v[i].second != v[i - 1].second) {
+				type.push_back(count);
+				count = 1;
+			}
+		}
+		type.push_back(count);
+		for (int i = 0; i < type.size(); i++) {
+			sum *= type[i] + 1;
+		}
+		printf("%d\n", sum - 1);
+	}
+
+	return 0;
+}
