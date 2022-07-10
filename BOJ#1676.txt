@@ -1,0 +1,21 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	int count = 0;
+	scanf_s("%d", &n);
+	for (int i = 1; i <= n; i++) {
+		//5로 몇 번 나눌 수 있는지 카운트
+		if (i % 5 == 0) {
+			for (int j = i; j % 5 == 0; j /= 5) {
+				count++;
+			}
+		}
+	}
+	printf("%d", count);
+
+	return 0;
+}
