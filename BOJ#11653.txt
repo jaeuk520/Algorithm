@@ -1,0 +1,22 @@
+#include<cstdio>
+#include <iostream>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+	// n이 1인 경우 아무것도 출력하지 않는다
+	while (n != 1) {
+		for (int i = 2; i <= n; i++) {
+			//n이 i로 나누어떨어지는 경우
+			if (n % i == 0) {
+				n /= i;
+				printf("%d\n", i);
+				break;
+			}
+		}
+	}
+
+	return 0;
+}
