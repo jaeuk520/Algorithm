@@ -1,0 +1,37 @@
+#include <vector>
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+bool visit[1001];
+vector<int> vec[1001];
+
+void dfs(int x) {
+	// 이미 방문했으면 리턴
+	if (visit[x]) return;
+	visit[x] = true;
+	for (int i = 0; i < vec[x].size(); i++) {
+		dfs(vec[x][i]);
+	}
+}
+
+int main(void) {
+
+	int n, m, u, v;
+	int count = 0;
+	scanf_s("%d %d", &n, &m);
+	for (int i = 0; i < m; i++) {
+		scanf_s("%d %d", &u, &v);
+		vec[u].push_back(v);
+		vec[v].push_back(u);
+	}
+	for (int i = 1; i <= n; i++) {
+		if (!visit[i]) {
+			dfs(i);
+			count++;
+		}
+	}
+	printf("%d", count);
+
+	return 0;
+}
