@@ -1,0 +1,35 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> vec(1001);
+bool visit[1001];
+
+void dfs(int x) {
+	if (visit[x]) return;
+	visit[x] = true;
+	dfs(vec[x]);
+}
+
+int main(void) {
+	
+	int t, n;
+	scanf_s("%d", &t);
+	while (t--) {
+		int count = 0;
+		scanf_s("%d", &n);
+		for (int i = 1; i <= n; i++) {
+			scanf_s("%d", &vec[i]);
+			visit[i] = false;
+		}
+		for (int i = 1; i <= n; i++) {
+			if (!visit[i]) {
+				dfs(i);
+				count++;
+			}
+		}
+		printf("%d\n", count);
+	}
+
+	return 0;
+}
