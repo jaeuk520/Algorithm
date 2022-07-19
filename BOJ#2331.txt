@@ -1,0 +1,39 @@
+#include <cstdio>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+int calc(int x, int y) {
+	int sum = 0;
+	while (x != 0) {
+		sum += pow(x % 10, y);
+		x /= 10;
+	}
+	return sum;
+}
+
+int main(void) {
+
+	vector<int> v;
+	int a, p;
+	bool flag = false;
+	scanf_s("%d %d", &a, &p);
+	//D[1], D[2]
+	v.push_back(a);
+	while (1) {
+		a = calc(a, p);
+		for (int i = 0; i < v.size(); i++) {
+			if(v[i] == a) {
+				printf("%d", i);
+				flag = true;
+				break;
+			}
+		}
+		if (flag == true) break;
+		else {
+			v.push_back(a);
+		}
+	}
+
+	return 0;
+}
