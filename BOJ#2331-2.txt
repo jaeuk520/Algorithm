@@ -1,0 +1,38 @@
+#include <cstdio>
+#include <vector>
+#include <math.h>
+using namespace std;
+
+bool visit[100000000];
+vector<int> v;
+
+int calc(int x, int y) {
+	int sum = 0;
+	while (x != 0) {
+		sum += pow(x % 10, y);
+		x /= 10;
+	}
+	return sum;
+}
+
+int dfs(int a, int p) {
+	if (visit[a]) return a; 
+	visit[a] = true;
+	v.push_back(a);
+	return dfs(calc(a, p), p);
+}
+
+int main(void) {
+
+	int a, p;
+	scanf("%d %d", &a, &p);
+	//D[1], D[2]
+	a = dfs(a, p);
+	for (int i = 0; i < v.size(); i++) {
+		if (a == v[i]) {
+			printf("%d", i);
+			break;
+		}
+	}
+	return 0;
+}
