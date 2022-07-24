@@ -1,0 +1,49 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> vec(100001);
+bool visit[100001];
+bool cycle[100001];
+int cnt;
+
+void dfs(int x) {
+
+	visit[x] = true;
+
+	if (!visit[vec[x]]) {
+		dfs(vec[x]);
+	}
+	else if (!cycle[vec[x]]) {
+		for (int i = vec[x]; i != x; i = vec[i]) {
+			cnt++;
+		}
+		cnt++;
+	}
+	cycle[x] = true;
+}
+
+int main(void) {
+
+	int t;
+	scanf_s("%d", &t);
+	while (t--) {
+		int n;
+		int num = 0;
+		scanf_s("%d", &n);
+		for (int i = 1; i <= n; i++) {
+			scanf_s("%d", &vec[i]);
+			visit[i] = false;
+			cycle[i] = false;
+		}
+		for (int i = 1; i <= n; i++) {
+			if (!visit[i]) {
+				dfs(i);
+			}
+		}
+		printf("%d\n", n - cnt);
+		cnt = 0;
+	}
+
+	return 0;
+}
