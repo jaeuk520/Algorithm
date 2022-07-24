@@ -1,0 +1,84 @@
+#include <cstdio>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+vector<char> map[25];
+queue<pair<char, char>> q;
+bool visit[25][25];
+vector<int> cnt;
+
+void bfs(int a, int b, int size) {
+
+	q.push(pair<int, int>(a, b));
+	pair<int, int> num;
+	int count = 0;
+	visit[a][b] = true;
+
+	while (!q.empty()) {
+		num = q.front();
+		int x = num.first;
+		int y = num.second;
+		q.pop();
+		count++;
+
+		if (y - 1 >= 0) {
+			if (!visit[x][y - 1] && map[x][y - 1] == '1') {
+				q.push(pair<int, int>(x, y - 1));
+				visit[x][y - 1] = true;
+			}
+		}
+		if (x - 1 >= 0) {
+			if (!visit[x - 1][y] && map[x - 1][y] == '1') {
+				q.push(pair<int, int>(x - 1, y));
+				visit[x - 1][y] = true;
+			}
+		}
+		if (y + 1 <= size) {
+			if (!visit[x][y + 1] && map[x][y + 1] == '1') {
+				q.push(pair<int, int>(x, y + 1));
+				visit[x][y + 1] = true;
+			}
+		}
+		if (x + 1 <= size) {
+			if (!visit[x + 1][y] && map[x + 1][y] == '1') {
+				q.push(pair<int, int>(x + 1, y));
+				visit[x + 1][y] = true;
+			}
+		}
+	}
+	if (count > 0) {
+		cnt.push_back(count);
+	}
+}
+
+int main(void) {
+
+	int n;
+	string temp;
+	scanf_s("%d", &n);
+	for (int i = 0; i < n; i++) {
+		cin >> temp;
+		for (int j = 0; j < n; j++) {
+			map[i].push_back(temp[j]);
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (map[i][j] == '1' && !visit[i][j]) {
+				bfs(i, j, n-1);
+			}
+		}
+	}
+	int size;
+	sort(cnt.begin(), cnt.end());
+	size = cnt.size();
+	printf("%d\n", size);
+	for (int i = 0; i < cnt.size(); i++) {
+		printf("%d\n", cnt[i]);
+	}
+	return 0;
+}
