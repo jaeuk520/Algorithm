@@ -1,0 +1,85 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+vector<int> box[1000];
+bool visit[1000][1000];
+queue<pair<int, int>> q;
+
+int bfs(int xMax, int yMax) {
+	int day = 0;
+	int popCount = q.size();
+	while (!q.empty()) {
+		pair<int, int> num = q.front();
+		q.pop();
+	
+		int x = num.first;
+		int y = num.second;
+		//우
+		if (y + 1 < yMax && !visit[x][y + 1] && box[x][y + 1] == 0) {
+			q.push(pair<int, int>(x, y + 1));
+			visit[x][y + 1] = true;
+			box[x][y + 1] = 1;
+		}
+		//좌
+		if (y > 0 && !visit[x][y - 1] && box[x][y - 1] == 0) {
+			q.push(pair<int, int>(x, y - 1));
+			visit[x][y - 1] = true;
+			box[x][y - 1] = 1;
+		}
+		//상
+		if (x > 0 && !visit[x - 1][y] && box[x - 1][y] == 0) {
+			q.push(pair<int, int>(x - 1, y));
+			visit[x - 1][y] = true;
+			box[x - 1][y] = 1;
+		}
+		//하
+		if (x + 1 < xMax && !visit[x + 1][y] && box[x + 1][y] == 0) {
+			q.push(pair<int, int>(x + 1, y));
+			visit[x + 1][y] = true;
+			box[x + 1][y] = 1;
+		}
+		popCount--;
+		if (popCount == 0) {
+			popCount = q.size();
+			if (popCount != 0) day++;
+		}
+	}
+	return day;
+}
+
+int main(void) {
+
+	int m, n;
+	int temp;
+	int count = -1;
+	int day;
+	cin >> m >> n;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			cin >> temp;
+			box[i].push_back(temp);
+		}
+	}
+	// bfs
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (box[i][j] == 1 && !visit[i][j]) {
+				q.push(pair<int, int>(i, j));
+			}
+		}
+	}
+	day = bfs(n, m);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (box[i][j] == 0) {
+				printf("-1");
+				exit(0);
+			}
+		}
+	}
+	printf("%d", day);
+
+	return 0;
+}
