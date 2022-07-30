@@ -1,0 +1,52 @@
+#include <iostream>
+#include <queue>
+#define MAX 101
+using namespace std;
+
+char maze[MAX][MAX];
+bool visit[MAX][MAX];
+int cnt[MAX][MAX];
+queue<pair<int, int>> q;
+
+int x_dir[4] = { -1, 1, 0, 0 }; //상하좌우 x축
+int y_dir[4] = { 0, 0, -1, 1 }; //상화좌우 y축
+int n, m;
+
+int bfs() {
+	// (0, 0)에서 시작
+	q.push(pair<int, int>(0, 0));
+	visit[0][0] = true;
+	cnt[0][0] = 1;
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+
+		for (int i = 0; i < 4; i++) {
+			int x_new = x + x_dir[i];
+			int y_new = y + y_dir[i];
+
+			if ((0 <= x_new && x_new < n) && (0 <= y_new && y_new < m) && !visit[x_new][y_new] && maze[x_new][y_new] == '1') {
+				visit[x_new][y_new] = true;
+				cnt[x_new][y_new] = cnt[x][y] + 1;
+				q.push(pair<int, int>(x_new, y_new));
+			}
+		}
+	}
+	return cnt[n - 1][m - 1];
+}
+
+int main(void) {
+
+	char temp;
+	cin >> n >> m;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			cin >> temp;
+			maze[i][j] = temp;
+		}
+	}
+	printf("%d", bfs());
+
+	return 0;
+}
