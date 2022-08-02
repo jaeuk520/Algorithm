@@ -1,0 +1,107 @@
+#include <iostream>
+#include <cstring>
+#include <queue>
+#define MAX 101
+using namespace std;
+
+int map[MAX][MAX];
+bool visit[MAX][MAX];
+queue<pair<int, int>> q;
+
+int dx[4] = {-1,1,0,0 };
+int dy[4] = { 0,0,-1,1 };
+
+int min(int a, int b) { 
+	return a < b ? a : b;
+}
+
+void makeLabel(int x, int y, int labelNumber, int n) {
+	queue<pair<int, int>> q;
+	visit[x][y] = true;
+	map[x][y] = labelNumber;
+	q.push(pair<int, int>(x, y));
+	while (!q.empty()) {
+		int x = q.front().first;
+		int y = q.front().second;
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			int xx = x + dx[i];
+			int yy = y + dy[i];
+			if ((xx >= 1 && xx <= n) && (yy >= 1 && yy <= n) && !visit[xx][yy] && map[xx][yy] == 1) {
+				visit[xx][yy] = 1;
+				q.push(pair<int, int>(xx, yy));
+				map[xx][yy] = labelNumber;
+			}
+		}
+	}
+}
+
+int bfs(int labelNumber, int n) {
+	queue<pair<int, int>> q;
+	int distance = 0;
+
+	//큐에 같은 대륙 좌표 삽입
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			if (map[i][j] == labelNumber) {
+				q.push(pair<int, int>(i, j));
+				visit[i][j] = true;
+			}
+		}
+	}
+
+	while (!q.empty()) {
+		int size = q.size();
+		for (int i = 1; i <= size; i++) {
+			int x = q.front().first;
+			int y = q.front().second;
+			q.pop();
+			for (int j = 0; j < 4; j++) {
+				int xx = x + dx[j];
+				int yy = y + dy[j];
+				if ((xx >= 1 && xx <= n) && (yy >= 1 && yy <= n)) {
+					if (map[xx][yy] != 0 && map[xx][yy] != labelNumber && !visit[xx][yy]) return distance;
+					else if (map[xx][yy] == 0 && !visit[xx][yy]) {
+						visit[xx][yy] = true;
+						q.push(pair<int, int>(xx, yy));
+					}
+				}
+			}
+		}
+		distance++;
+	}
+	return 99999;
+}
+
+int main(void) {
+
+	int n;
+	int answer = 99999;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			cin >> map[i][j];
+		}
+	}
+
+	// bfs이용하여 대륙 라벨링
+	int labelNumber = 1;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++) {
+			if (!visit[i][j] && map[i][j] == 1) {
+				makeLabel(i, j, labelNumber, n);
+				labelNumber++;
+			}
+		}
+	}
+
+	// 다리 연결하기
+	for (int i = 1; i < labelNumber; i++) {
+		answer = min(answer, bfs(i, n));
+		memset(visit, false, sizeof(visit));
+	}
+
+	printf("%d", answer);
+
+	return 0;
+}
