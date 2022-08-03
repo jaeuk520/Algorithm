@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+typedef struct node* treePointer;
+typedef struct node {
+	char data;
+	treePointer leftChild, rightChild;
+}node;
+
+void preOrder(treePointer ptr) {
+	if (ptr) {
+		printf("%c", ptr->data);
+		preOrder(ptr->leftChild);
+		preOrder(ptr->rightChild);
+	}
+}
+
+void inOrder(treePointer ptr) {
+	if (ptr) {
+		inOrder(ptr->leftChild);
+		printf("%c", ptr->data);
+		inOrder(ptr->rightChild);
+	}
+}
+
+void postOrder(treePointer ptr) {
+	if (ptr) {
+		postOrder(ptr->leftChild);
+		postOrder(ptr->rightChild);
+		printf("%c", ptr->data);
+	}
+}
+
+int main(void) {
+
+	int n;
+	char alp, left, right;
+	node nodes[27];
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		nodes[i].data = 'A' + (i - 1);
+		nodes[i].leftChild = NULL;
+		nodes[i].rightChild = NULL;
+	}
+	for (int i = 1; i <= n; i++) {
+		cin >> alp >> left >> right;
+		if (left != '.') {
+			nodes[alp - 'A' + 1].leftChild = &nodes[left - 'A' + 1];
+		}
+		if (right != '.') {
+			nodes[alp - 'A' + 1].rightChild = &nodes[right - 'A' + 1];
+		}
+	}
+	preOrder(&nodes[1]);
+	printf("\n");
+	inOrder(&nodes[1]);
+	printf("\n");
+	postOrder(&nodes[1]);
+
+	return 0;
+}
