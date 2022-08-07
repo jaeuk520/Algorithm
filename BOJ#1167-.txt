@@ -1,0 +1,60 @@
+#include <cstdio>
+#include <memory.h>
+#include <vector>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#define MAX 100001
+using namespace std;
+
+vector<pair<int,int>> vec[MAX];
+stack<int> s;
+queue<pair<int, int>> q;
+bool visit[MAX];
+
+bool compare(pair<int, int> p1, pair<int, int>p2) {
+	return p1.second > p2.second;
+}
+
+int max(int a, int b) {
+	return a > b ? a : b;
+}
+
+int dfs(int n, int d, int sum) {
+	visit[n] = true;
+	s.push(n);
+	sum += d;
+	if (!visit[vec[n][0].first]) {
+		dfs(vec[n][0].first, vec[n][0].second, sum);
+	}
+	else return sum;
+}
+
+int main(void) {
+
+	int v;
+	int node1, node2, dist;
+	scanf_s("%d", &v);
+	for (int i = 1; i <= v; i++) {
+		scanf_s("%d", &node1);
+		while (1) {
+			scanf_s("%d", &node2);
+			if (node2 == -1) break;
+			else {
+				scanf_s("%d", &dist);
+			}
+			vec[node1].push_back(pair<int, int>(node2, dist));
+		}
+		sort(vec[node1].begin(), vec[node1].end(), compare);
+	}
+
+	int ans = 0;
+
+	ans = dfs(1, 0, 0);
+	memset(visit, false, sizeof(visit));
+	ans = max(dfs(s.top(), 0, 0), ans);
+
+	printf("%d", ans);
+
+	return 0;
+}
