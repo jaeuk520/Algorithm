@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <vector>
+#include <memory.h>
+#define MAX 100001
+using namespace std;
+
+typedef struct node {
+	int num;
+	int dist;
+}node;
+
+vector<node> vec[MAX];
+bool visit[MAX];
+int maxDist;
+int maxNode;
+
+void dfs(int nodeNum, int nodeDist) {
+	if (visit[nodeNum]) return;
+	visit[nodeNum] = true;
+	if (maxDist < nodeDist) {
+		maxDist = nodeDist;
+		maxNode = nodeNum;
+	}
+	for (int i = 0; i < vec[nodeNum].size(); i++) {
+		dfs(vec[nodeNum][i].num, nodeDist + vec[nodeNum][i].dist);
+	}
+}
+
+int main(void) {
+
+	int v;
+	int nodeNum, nodeNum2, nodeDist;
+	scanf_s("%d", &v);
+	for (int i = 1; i <= v; i++) {
+		scanf_s("%d", &nodeNum);
+		while (1) {
+			scanf_s("%d", &nodeNum2);
+			if (nodeNum2 == -1) {
+				break;
+			}
+			scanf_s("%d", &nodeDist);
+			vec[nodeNum].push_back({ nodeNum2, nodeDist });
+		}
+	}
+	dfs(1, 0);
+	memset(visit, false, sizeof(visit));
+	maxDist = 0;
+	dfs(maxNode, 0);
+	printf("%d", maxDist);
+
+	return 0;
+}
