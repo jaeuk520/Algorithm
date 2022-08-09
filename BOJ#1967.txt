@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <vector>
+#include <memory.h>
+#define MAX 10001
+using namespace std;
+
+typedef struct node {
+	int data;
+	int dist;
+}node;
+int maxNode;
+int maxDist;
+bool visit[MAX];
+vector<node> tree[MAX];
+
+void dfs(int num, int dist) {
+	if (visit[num]) return;
+	visit[num] = true;
+	if (maxDist < dist) {
+		maxDist = dist;
+		maxNode = num;
+	}
+	for (int i = 0; i < tree[num].size(); i++) {
+		dfs(tree[num][i].data, dist + tree[num][i].dist);
+	}
+	return;
+}
+
+int main(void) {
+
+	int n;
+	int parentNode, childNode, weight;
+	scanf_s("%d", &n);
+	for (int i = 1; i < n; i++) {
+		scanf_s("%d %d %d", &parentNode, &childNode, &weight);
+		tree[parentNode].push_back({ childNode, weight });
+		tree[childNode].push_back({ parentNode, weight });
+	}
+	dfs(1, 0);
+	memset(visit, false, sizeof(visit));
+	maxDist = 0;
+	dfs(maxNode, 0);
+	printf("%d", maxDist);
+
+	return 0;
+}
