@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<long long> x;
+
+int main(void) {
+
+	int N, C;
+	long long x_home;
+	scanf_s("%d %d", &N, &C);
+	for (int i = 0; i < N; i++) {
+		scanf_s("%lld", &x_home);
+		x.push_back(x_home);
+	}
+	sort(x.begin(), x.end());
+	int lo = 0;
+	int hi = x[N - 1] - x[0];
+	int ans = 0;
+	while (lo <= hi) {
+		int mid = (lo + hi) / 2;
+		int cnt = 1;
+		int start = x[0];
+		for (int i = 1; i < N; i++) {
+			if (x[i] - start >= mid) {
+				cnt++;
+				start = x[i];
+			}
+		}
+		if (cnt < C) {
+			hi = mid - 1;
+		}
+		else if (cnt >= C) {
+			lo = mid + 1;
+			if (ans < mid) ans = mid;
+		}
+	}
+	printf("%d", ans);
+
+	return 0;
+}
