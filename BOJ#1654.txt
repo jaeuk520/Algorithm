@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+#define NUM 10001
+using namespace std;
+
+typedef struct lan {
+	int len;
+	int cnt;
+}lan;
+
+bool compare(int a, int b) {
+	return a > b;
+}
+
+vector<lan> v;
+vector<int> ans;
+
+int main(void) {
+
+	int k, n;
+	int len;
+	long long lenSum = 0;
+	int cntSum = 0;
+	scanf_s("%d %d", &k, &n);
+	for (int i = 0; i < k; i++) {
+		scanf_s("%d", &len);
+		v.push_back({ len, 0 });
+		lenSum += len;
+	}
+	lenSum /= n;
+	for (int i = 0; i < k; i++) {
+		v[i].cnt = v[i].len / lenSum;
+		cntSum += v[i].cnt;
+	}
+	cntSum = n - cntSum;
+	if (cntSum <= 0) {
+		printf("%d", lenSum);
+		exit(0);
+	}
+	for (int i = 0; i < k; i++) {
+		ans.push_back(v[i].len / (v[i].cnt + 1));
+	}
+	sort(ans.begin(), ans.end(), compare);
+	printf("%d", ans[cntSum - 1]);
+
+	return 0;
+}
