@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <vector>
+using namespace std;
+
+vector<int> lan;
+
+long long low, high, mid;
+
+int main(void) {
+
+	int k, n;
+	int length;
+	int ans = 0;
+	scanf_s("%d %d", &k, &n);
+	for (int i = 0; i < k; i++) {
+		scanf_s("%d", &length);
+		lan.push_back(length);
+		if (high < length) {
+			high = length;
+		}
+	}
+	low = 1;
+	while (low <= high) {
+		int cnt = 0;
+		mid = (low + high) / 2;
+		for (int i = 0; i < k; i++) {
+			cnt += lan[i] / mid;
+		}
+		if (cnt < n) {
+			high = mid - 1;
+		}
+		else {
+			if (ans < mid) ans = mid;
+			low = mid + 1;
+		}
+	}
+
+	printf("%d", ans);
+
+	return 0;
+}
