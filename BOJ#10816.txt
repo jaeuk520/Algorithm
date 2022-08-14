@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<long long> v1;
+vector<long long> v2;
+vector<int> ans;
+long long a1[10000001];
+long long a2[10000001];
+//long long cnt;
+
+void binarySearch(int lo, int hi, int num) {
+	if (lo > hi) return ans.push_back(0);
+	int mid = (lo + hi) / 2;
+	if (v1[mid] == num) {
+		if (num >= 0) {
+			return ans.push_back(a1[num]);
+		}
+		else { return ans.push_back(a2[-1 * num]); }
+		/*
+		cnt++;
+		for (int i = mid + 1; i <= hi; i++) {
+			if (v1[i] == num) cnt++;
+			else break;
+		}
+		for (int i = mid - 1; i >= lo; i--) {
+			if (v1[i] == num) cnt++;
+			else break;
+		}
+		return ans.push_back(cnt);
+		*/
+	}
+	else if (v1[mid] > num) return binarySearch(lo, mid - 1, num);
+	else if (v1[mid] < num) return binarySearch(mid + 1, hi, num);
+}
+
+int main(void) {
+
+	int N, M;
+	long long temp;
+	scanf_s("%d", &N);
+	for (int i = 0; i < N; i++) {
+		scanf_s("%lld", &temp);
+		v1.push_back(temp);
+		if (temp >= 0) {
+			a1[temp]++;
+		}
+		else {
+			a2[-1 * temp]++;
+		}
+	}
+	sort(v1.begin(), v1.end());
+	scanf_s("%d", &M);
+	for (int i = 0; i < M; i++) {
+		scanf_s("%lld", &temp);
+		v2.push_back(temp);
+	}
+	for (int i = 0; i < v2.size(); i++) {
+		binarySearch(0, v1.size() - 1, v2[i]);
+		//cnt = 0;
+	}
+	for (int i = 0; i < ans.size(); i++) {
+		printf("%d ", ans[i]);
+	}
+
+	return 0;
+}
