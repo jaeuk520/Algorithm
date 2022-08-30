@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+vector<int> A, B;
+
+int main(void) {
+
+	int N, M;
+	int temp;
+	scanf_s("%d %d", &N, &M);
+	for (int i = 0; i < N; i++) {
+		scanf_s("%d", &temp);
+		A.push_back(temp);
+	}
+	for (int i = 0; i < M; i++) {
+		scanf_s("%d", &temp);
+		B.push_back(temp);
+	}
+	A.insert(A.end(), B.begin(), B.end());
+	sort(A.begin(), A.end());
+	for (int i = 0; i < A.size(); i++) {
+		printf("%d ", A[i]);
+	}
+
+	return 0;
+}
