@@ -1,0 +1,61 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+int map[50][50];
+bool visit[50][50];
+int cnt;
+int m;
+int n;
+
+void dfs(int x, int y) {
+	if (x > m-1 || y > n-1 || x < 0 || y < 0) return;
+	if (!visit[x][y] && map[x][y] == 1) {
+		visit[x][y] = true;
+		dfs(x+1, y);
+		dfs(x, y+1);
+		dfs(x-1, y);
+		dfs(x, y-1);
+	}
+	return;
+}
+
+int main(void) {
+
+	int t;
+	int k;
+	int x, y;
+	vector<pair<int, int>> num;
+	
+	scanf_s("%d", &t);
+	for (int i = 0; i < t; i++) {
+		scanf_s("%d %d %d", &m, &n, &k);
+		for (int j = 0; j < k; j++) {
+			scanf_s("%d %d", &x, &y);
+			num.push_back(pair<int, int>(x, y));
+			map[x][y] = 1;
+		}
+		
+		for (int p = 0; p < num.size(); p++) {
+			if (!visit[num[p].first][num[p].second]) {
+				dfs(num[p].first, num[p].second);
+				cnt++;
+			}
+		}
+
+		printf("%d\n", cnt);
+		cnt = 0;
+
+
+		//초기화
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				map[i][j] = 0;
+				visit[i][j] = false;
+			}
+		}
+		num.clear();
+	}
+
+	return 0;
+}
