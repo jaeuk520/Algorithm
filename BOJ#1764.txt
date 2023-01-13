@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main(void) {
+
+	int n, m;
+
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+
+	cin >> n >> m;
+
+	vector<string> v(n);
+	map<string, int> map;
+	string name;
+	int cnt = 0;
+	vector<string> res;
+
+	for (int i = 0; i < n; i++) {
+		cin >> v[i];
+	}
+	for (int j = 0; j < m; j++) {
+		cin >> name;
+		map.insert({ name, j });
+	}
+	for (int i = 0; i < n; i++) {
+		if (map.find(v[i]) != map.end()) {
+			cnt++;
+			res.push_back(v[i]);
+		}
+	}
+	sort(res.begin(), res.end());
+	cout << cnt << "\n";
+	for (int i = 0; i < res.size(); i++) {
+		cout << res[i] << "\n";
+	}
+	
+	return 0;
+}
