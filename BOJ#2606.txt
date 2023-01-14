@@ -1,0 +1,36 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> v[101];
+bool visit[101];
+int cnt = -1;
+
+void bfs(int num) {
+	if (visit[num]) {
+		return;
+	}
+	visit[num] = true;
+	cnt++;
+	for (int i = 0; i < v[num].size(); i++) {
+		bfs(v[num][i]);
+	}
+}
+
+int main(void) {
+
+	int cp_num;
+	scanf_s("%d", &cp_num);
+	int connected_num;
+	scanf_s("%d", &connected_num);
+	int num1, num2;
+	for (int i = 0; i < connected_num; i++) {
+		scanf_s("%d %d", &num1, &num2);
+		v[num1].push_back(num2);
+		v[num2].push_back(num1);
+	}
+	bfs(1);
+	printf("%d", cnt);
+
+	return 0;
+}
