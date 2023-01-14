@@ -1,0 +1,45 @@
+#include <cstdio>
+using namespace std;
+
+int cnt_white = 0;
+int cnt_blue = 0;
+int paper[128][128];
+bool white; //0
+bool blue; //1
+
+void cut(int row, int col, int size) {
+	for (int i = row; i < row+size; i++) {
+		for (int j = col; j < col+size; j++) {
+			if (paper[i][j] == 0) white = true;
+			else if(paper[i][j] == 1) blue = true;
+		}
+	}
+	if (white && !blue) { cnt_white++; white = false; blue = false; return; }
+	else if (!white && blue) { cnt_blue++; white = false; blue = false; return; }
+	else if(white && blue) {
+		int mid = size / 2;
+		white = false;
+		blue = false;
+		cut(row, col, mid);
+		cut(row, col+mid, mid);
+		cut(row+mid, col, mid);
+		cut(row+mid, col+mid, mid);
+	}
+	return;
+}
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			scanf_s("%d", &paper[i][j]);
+		}
+	}
+	cut(0, 0, n);
+	printf("%d\n", cnt_white);
+	printf("%d", cnt_blue);
+
+	return 0;
+}
