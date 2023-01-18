@@ -1,0 +1,44 @@
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+int m;
+queue <pair<int,int>> q;
+bool visit[100001];
+
+void bfs(int n, int k) {
+	if (n < 0 || n > 100000) return;
+	pair<int, int> temp;
+	temp = q.front();
+	q.pop();
+	visit[temp.first] = true;
+	if(temp.first * 2 <= 100000 && !visit[temp.first * 2]) q.push(pair<int, int>(temp.first * 2, temp.second + 1));
+	if(temp.first - 1 >= 0 && !visit[temp.first - 1]) q.push(pair<int,int>(temp.first - 1, temp.second + 1));
+	if(temp.first + 1 <= 100000 && !visit[temp.first + 1]) q.push(pair<int, int>(temp.first + 1, temp.second + 1));
+	while (!q.empty()) {
+		temp = q.front();
+		q.pop();
+		visit[temp.first] = true;
+		if (temp.first == k) {
+			m = temp.second;
+			return;
+		}
+		if (temp.first * 2 <= 100000 && !visit[temp.first * 2]) q.push(pair<int, int>(temp.first * 2, temp.second + 1));
+		if (temp.first - 1 >= 0 && !visit[temp.first - 1]) q.push(pair<int, int>(temp.first - 1, temp.second + 1));
+		if (temp.first + 1 <= 100000 && !visit[temp.first + 1]) q.push(pair<int, int>(temp.first + 1, temp.second + 1));
+	}
+}
+
+int main(void) {
+
+	int n, k;
+	scanf_s("%d %d", &n, &k);
+	q.push(pair<int,int>(n,0));
+	if (n == k) printf("0");
+	else {
+		bfs(n, k);
+		printf("%d", m);
+	}
+
+	return 0;
+}
