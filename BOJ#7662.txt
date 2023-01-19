@@ -1,0 +1,37 @@
+#include <set>
+#include <iostream>
+using namespace std;
+
+int main(void) {
+
+	multiset<int> ms;
+	int T;
+	int k, n;
+	char c;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> T;
+	while (T--) {
+		cin >> k;
+		for (int i = 0; i < k; i++) {
+			cin >> c >> n;
+			if (c == 'I') ms.insert(n);
+			else if (c == 'D') {
+				if (n == -1 && !ms.empty()) { ms.erase(ms.begin()); }
+				else if (n == 1 && !ms.empty()) { auto iter = ms.end(); iter--;  ms.erase(iter); }
+			}
+		}
+		if (ms.empty()) cout << "EMPTY\n";
+		else {
+			auto iter = ms.begin();
+			int min = *iter;
+			iter = ms.end();
+			iter--;
+			int max = *iter;
+			cout << max << " " << min << "\n";
+		}
+		ms.clear();
+	}
+
+	return 0;
+}
