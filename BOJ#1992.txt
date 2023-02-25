@@ -1,0 +1,45 @@
+#include <iostream>
+#define MAX 5000
+using namespace std;
+
+int arr[MAX][MAX];
+
+void fun(int size, int x, int y) {
+	if (size == 1) {
+		printf("%d", arr[x][y]); return;
+	}
+	int num = arr[x][y];
+	for (int i = x; i < x + size; i++) {
+		for (int j = y; j < y + size; j++) {
+			if (num != arr[i][j]) {
+				size /= 2;
+				printf("(");
+				fun(size, x, y);
+				fun(size, x, y + size);
+				fun(size, x + size, y);
+				fun(size, x + size, y + size);
+				printf(")");
+				return;
+			}
+		}
+	}
+	printf("%d", num);
+	return;
+}
+
+int main(void) {
+
+	int n;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> n;
+	char s;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> s;
+			arr[i][j] = s - '0';
+		}
+	}
+	fun(n, 0, 0);
+	return 0;
+}
