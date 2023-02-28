@@ -1,0 +1,46 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> v[101];
+bool visit[101];
+
+void dfs(int n) {
+	
+	if (visit[n]) return;
+	visit[n] = true;
+	
+	for (int i = 0; i < v[n].size(); i++) {
+		dfs(v[n][i]);
+	}
+	return;
+}
+
+int main(void) {
+
+	int N;
+	int temp;
+	scanf_s("%d", &N);
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			scanf_s("%d", &temp);
+			if (temp == 1) v[i].push_back(j);
+		}
+	}
+
+	for (int i = 0; i < N; i++) {
+		if (!v[i].empty()) {
+			for (int j = 0; j < v[i].size(); j++) {
+				dfs(v[i][j]);
+			}
+		}
+		for (int k = 0; k < N; k++) {
+			printf("%d ", visit[k]);
+		}
+		printf("\n");
+		memset(visit, 0, sizeof(visit));
+	}
+	system("pause");
+
+	return 0;
+}
