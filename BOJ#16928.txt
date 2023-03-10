@@ -1,0 +1,67 @@
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+int ladder[101];
+int snake[101];
+bool visit[101];
+queue<int> q;
+int cnt;
+
+void bfs() {
+
+	//start from 1
+	//roll dice 1 to 6
+	int num;
+	q.push(1);
+	visit[1] = true;
+
+	while (1) {
+		int size = q.size();
+		for (int i = 0; i < size; i++) {
+			num = q.front();
+			q.pop();
+
+			for (int j = 6; j >= 1; j--) {
+				if (num + j >= 100) {
+					cnt++;  
+					return;
+				}
+				else if (!visit[num + j]) {
+					if (ladder[num + j] != 0) {
+						q.push(ladder[num + j]);
+					}
+					else if (snake[num + j] != 0) {
+						q.push(snake[num + j]);
+					}
+					else {
+						q.push(num + j); visit[num + j] = true;
+					}
+				}
+			}
+		}
+		cnt++;
+	}
+	return;
+}
+
+int main(void) {
+	
+	int n, m;
+	scanf_s("%d %d", &n, &m); //ladder, snake
+	int x, y;
+	int u, v;
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d %d", &x, &y);
+		ladder[x] = y;
+	}
+	for (int i = 0; i < m; i++) {
+		scanf_s("%d %d", &u, &v);
+		snake[u] = v;
+	}
+	bfs();
+	printf("%d", cnt);
+
+	system("pause");
+	return 0;
+}
