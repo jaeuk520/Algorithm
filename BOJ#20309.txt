@@ -1,0 +1,26 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+int main(void) {
+
+	int n;
+	scanf_s("%d", &n);
+	vector<int> v(n);
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &v[i]);
+	}
+	for (int i = 0; i < v.size(); i++) {
+		if ((i + 1) % 2 == 1 && v[i] % 2 != 1) {
+			printf("NO");
+			return 0;
+		}
+		else if((i+1) % 2 == 0 && v[i] % 2 != 0) {
+			printf("NO");
+			return 0;
+		}
+	}
+	printf("YES");
+
+	return 0;
+}
