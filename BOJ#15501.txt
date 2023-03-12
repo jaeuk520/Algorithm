@@ -1,0 +1,64 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> v1;
+vector<int> v2;
+
+bool inc(int idx) {
+	for (int i = 0; i < v2.size(); i++) {
+		if (v1[i] != v2[idx]) {
+			return false;
+		}
+		if (idx == v2.size() - 1) {
+			idx = 0;
+		}
+		else idx++;
+	}
+	return true;
+}
+
+bool dec(int idx) {
+	for (int i = 0; i < v2.size(); i++) {
+		if (v1[i] != v2[idx]) {
+			return false;
+		}
+		if (idx == 0) {
+			idx = v2.size() - 1;
+		}
+		else idx--;
+	}
+	return true;
+}
+
+int main(void) {
+
+	int n, temp;
+	scanf_s("%d", &n);
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &temp);
+		v1.push_back(temp);
+	}
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &temp);
+		v2.push_back(temp);
+	}
+
+	int idx;
+	
+	for (int i = 0; i < v2.size(); i++) {
+		if (v2[i] == v1[0]) {
+			idx = i;
+		}
+	}
+	
+	if (!inc(idx) && !dec(idx)) {
+		printf("bad puzzle");
+	}
+	else {
+		printf("good puzzle");
+	}
+	system("pause");
+
+	return 0;
+}
