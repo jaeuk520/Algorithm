@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+bool palindrome(string s, int i, int len) {
+	for (i; i <= len / 2; i++) {
+		if (s[i] != s[len - i - 1]) return false;
+	}
+	return true;
+}
+
+int main(void) {
+
+	string str;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> str;
+	int len = str.length();
+
+	if (len == 1) {
+		cout << -1;
+		system("pause");
+		return 0;
+	}
+
+	char temp = str[0];
+	bool flag = false;
+
+	for (int i = 1; i < str.length(); i++) {
+		if (str[i] != temp) {
+			flag = true;
+			break;
+		}
+	}
+
+	if (!flag) {
+		cout << -1;
+		system("pause");
+		return 0;
+	}
+
+	while (len) {
+		for (int i = 0; i <= str.length() - len; i++) {
+			if (!palindrome(str, i, len)) {
+				cout << len;
+				system("pause");
+				return 0;
+			}
+			else {
+				cout << len - 1;
+				system("pause");
+				return 0;
+			}
+		}
+		len--;
+	}
+	
+	return 0;
+}
