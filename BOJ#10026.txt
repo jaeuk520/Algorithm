@@ -1,0 +1,97 @@
+#include <iostream>
+#include <queue>
+#include <memory.h>
+using namespace std;
+
+char arr[100][100];
+bool visit[100][100];
+queue<pair<int, int>> q;
+
+int dx[4] = { 0, 0, -1 , 1 };
+int dy[4] = { 1, -1, 0, 0 };
+
+void bfs(int x, int y, int size) {
+
+	q.push(pair<int, int>(x, y));
+	visit[x][y] = true; //방문처리
+	while (!q.empty()) {
+		x = q.front().first;
+		y = q.front().second;
+		q.pop();
+		for (int i = 0; i < 4; i++) {
+			if (x + dx[i] >= 0 && x + dx[i] < size && y + dy[i] >= 0 && y + dy[i] < size) { // 범위 확인
+				if (!visit[x + dx[i]][y + dy[i]] && arr[x + dx[i]][y + dy[i]] == arr[x][y]) { // 방문 여부와 주변과 같은 색인지 확인
+					q.push(pair<int, int>(x + dx[i], y + dy[i]));
+					visit[x + dx[i]][y + dy[i]] = true;
+				}
+			}
+		}
+	}
+}
+
+void bfs2(int x, int y, int size) {
+
+	q.push(pair<int, int>(x, y));
+	visit[x][y] = true; //방문처리
+	while (!q.empty()) {
+		x = q.front().first;
+		y = q.front().second;
+		q.pop();
+		visit[x][y] = true; //방문처리
+		for (int i = 0; i < 4; i++) {
+			if (x + dx[i] >= 0 && x + dx[i] < size && y + dy[i] >= 0 && y + dy[i] < size) { // 범위 확인
+				if (!visit[x + dx[i]][y + dy[i]] && arr[x + dx[i]][y + dy[i]] == arr[x][y]) { // 주변과 같은 색인지 확인
+					q.push(pair<int, int>(x + dx[i], y + dy[i]));
+					visit[x + dx[i]][y + dy[i]] = true;
+				} 
+				else if (!visit[x + dx[i]][y + dy[i]] && (arr[x + dx[i]][y + dy[i]] == 'R' && arr[x][y] == 'G') || (arr[x + dx[i]][y + dy[i]] == 'G' && arr[x][y] == 'R')) {
+					q.push(pair<int, int>(x + dx[i], y + dy[i]));
+					visit[x + dx[i]][y + dy[i]] = true;
+				}
+			}
+		}
+	}
+}
+
+int main(void) {
+
+	int n;
+	char c;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> n;
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> c;
+			arr[i][j] = c;
+		}
+	}
+
+	// bfs
+	int cnt = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			// 방문하지 않은 곳만 확인
+			if (!visit[i][j]) {
+				bfs(i, j, n);
+				cnt++;
+			}
+		}
+	}
+	memset(visit, false, sizeof(visit));
+	// 적록색약 확인
+	int cnt2 = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			// 방문하지 않은 곳만 확인
+			if (!visit[i][j]) {
+				bfs2(i, j, n);
+				cnt2++;
+			}
+		}
+	}
+	cout << cnt << " " << cnt2;
+
+	system("pause");
+}
