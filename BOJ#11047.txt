@@ -1,0 +1,26 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+int main(void) {
+
+	int n, k;
+	scanf_s("%d %d", &n, &k);
+	vector<int> v(n);
+	for (int i = 0; i < n; i++) {
+		scanf_s("%d", &v[i]);
+	}
+	int cnt = 0;
+	for (int i = v.size() - 1; i >= 0; i--) {
+		if (k == 0) break;
+		if (v[i] <= k) {
+			while (v[i] <= k) {
+				k -= v[i];
+				cnt++;
+			}
+		}
+	}
+	printf("%d", cnt);
+	system("pause");
+	return 0;
+}
