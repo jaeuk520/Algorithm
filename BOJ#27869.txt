@@ -1,0 +1,42 @@
+#include <cstdio>
+#include <set>
+using namespace std;
+
+long long dp[200001];
+
+int main(void) {
+
+	int n, q;
+	scanf("%d %d", &n, &q);
+	set<int, greater<int>> ss;
+	int temp;
+	long long sum = 0;
+	int d, s, e;
+
+	for (int i = 0; i < n; i++) {
+		scanf("%d", &temp);
+		sum += temp;
+		dp[i + 1] = sum;
+	}
+
+	for (int i = 0; i < q; i++) {
+		scanf("%d", &temp);
+		if (temp == 1) {
+			scanf("%d", &d);
+			ss.insert(d);
+		}
+		else if (temp == 2) {
+			scanf("%d %d", &s, &e);
+
+			if (!ss.empty() && ss.upper_bound(e) != ss.end()) { //set이 비어있지 않은 경우
+				auto iter = ss.upper_bound(e);
+				if(*iter >= s) printf("%lld\n", dp[e] - dp[*iter]);
+				else printf("%lld\n", dp[e] - dp[s - 1]);
+			}
+			else {
+				printf("%lld\n", dp[e] - dp[s - 1]);
+			}
+		}
+	}
+	return 0;
+}
