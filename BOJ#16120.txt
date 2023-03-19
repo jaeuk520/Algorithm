@@ -1,0 +1,46 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main(void) {
+
+	string str;
+	string ppap = "PPAP";
+	int correct_num = 0;
+	stack<char> s;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> str;
+	for (int i = 0; i < str.length(); i++) {
+		s.push(str[i]);
+		if (s.top() == ppap[correct_num]) {
+			correct_num++;
+			if (correct_num == 4) {
+				for (int j = 0; j < 4; j++) {
+					s.pop();
+				}
+				if (!s.empty() && s.top() == ppap[0]) {
+					correct_num = 1;
+				}
+				else correct_num = 0;
+				s.push('P');
+				correct_num++;
+			}
+		}
+		else if (correct_num != 0 && s.top() != ppap[correct_num]) {
+			while (correct_num != 0 && s.top() != ppap[correct_num]) {
+				correct_num--;
+				if (s.top() == ppap[correct_num]) {
+					correct_num++;
+					break;
+				}
+			}
+		}
+	}
+	if (s.size() == 1 && s.top() == 'P') printf("PPAP");
+	else printf("NP");
+
+	system("pause");
+
+	return 0;
+}
