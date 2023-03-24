@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int dp[301][301]; //dp[n][m]: n번째 도시, m번째 방문 중 최대
+vector<pair<int, int>> v[301];
+
+int main(void) {
+
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+
+	int n, m, k;
+	cin >> n >> m >> k;
+	int a, b, c;
+	for (int i = 0; i < k; i++) {
+		cin >> a >> b >> c;
+		if (a < b) {
+			v[a].push_back(pair<int, int>(b, c));
+		}
+	}
+	for (int i = 0; i < v[1].size(); i++) {
+		int next = v[1][i].first;
+		int score = v[1][i].second;
+		if (dp[next][2] < score) dp[next][2] = score;
+	}
+	for (int i = 2; i <= m; ++i) { //i번째 방문
+		for (int j = 2; j <= n; ++j) { //j에 경로 확인
+			if (dp[j][i] != 0) { //경로가 존재함
+				for (int k = 0; k < v[j].size(); ++k) {
+					int next = v[j][k].first;
+					int score = dp[j][i] + v[j][k].second;
+					if (dp[next][i + 1] < score) dp[next][i + 1] = score;
+				}
+			}
+		}
+	}
+	int max = 0;
+	for (int i = 2; i <= m; i++) {
+		if (max < dp[n][i]) max = dp[n][i];
+	}
+	cout << max;
+	system("pause");
+
+	return 0;
+}
