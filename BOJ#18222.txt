@@ -1,0 +1,36 @@
+#include <cstdio>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+int main(void) {
+
+	long double k;
+	scanf_s("%Lf", &k);
+	int i = 1;
+	bool flag = true;
+	while (k != 1 && k != 2) {
+		i = log2(k);
+		if (pow(2, i) == k) {
+			k = 1; i--;
+		}
+		else k = pow(2, i + 1) - k + 1;
+		
+		if (i % 2 == 0) flag = !flag;
+	}
+
+	int ans;
+	if (k == 1) {
+		if (flag) ans = 0;
+		else ans = 1;
+	}
+	else if (k == 2) {
+		if (flag) ans = 1;
+		else ans = 0;
+	}
+
+	printf("%d", ans);
+	system("pause");
+
+	return 0;
+}
