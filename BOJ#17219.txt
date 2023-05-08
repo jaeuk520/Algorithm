@@ -1,0 +1,25 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+int main(void) {
+
+	map <string, string> mp;
+	int n, m;
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	cin >> n >> m;
+	string addr;
+	string pw;
+	for (int i = 0; i < n; i++) {
+		cin >> addr >> pw;
+		mp.insert({ addr, pw });
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> addr;
+		auto iter = mp.find(addr);
+		cout << iter->second << "\n";
+	}
+	system("pause");
+	return 0;
+}
