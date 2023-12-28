@@ -1,0 +1,56 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<int> bandage, int health, vector<vector<int>> attacks) {
+    
+    int max = health;
+    int answer = 0;
+    int time = attacks[attacks.size()-1][0];
+    int healPerSec = bandage[1];
+    int skillTime = bandage[0];
+    int extraHeal = bandage[2];
+    int attackCnt = 0;
+    int attackTime = attacks[attackCnt][0];
+    int damage = attacks[attackCnt][1];
+    int successStreak = 0;
+    
+    for(int i=1; i<=time; i++) {
+        // 공격받음
+        if(i == attackTime) {
+            health -= damage;
+            successStreak = 0;
+            
+            // 사망
+            if(health <= 0) {
+                return -1;
+            }
+            
+            attackCnt += 1;
+            if(attackCnt < attacks.size()) {
+                attackTime = attacks[attackCnt][0];
+                damage = attacks[attackCnt][1];
+            }
+        }
+        // 공격 안 받음
+        else {
+            // 회복
+            health += healPerSec;
+            
+            successStreak += 1;
+            if(successStreak == skillTime) {
+                successStreak = 0;
+                health += extraHeal;
+            }
+            
+            if(health >= max) {
+                health = max;
+            }
+        }
+    }
+    answer = health;
+    return answer;
+}
