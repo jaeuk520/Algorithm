@@ -1,0 +1,24 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+string solution(string s, string skip, int index) {
+    
+    for(int i=0; i<s.length(); i++) {
+        for(int j=1; j<=index; j++) {
+            // +1
+            if(s[i] == 'z') {
+                s[i] = 'a';
+            } else {
+                s[i] += 1;   
+            }
+            if(skip.find(s[i]) != string::npos) {
+                j--;
+            }
+        }
+    }
+    
+    return s;
+}
