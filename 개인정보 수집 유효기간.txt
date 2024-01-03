@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+using namespace std;
+
+vector<int> solution(string today, vector<string> terms, vector<string> privacies) {
+    vector<int> answer;
+    
+    map<char, int> map_terms;
+    
+    //map 초기화
+    for(int i=0; i<terms.size(); i++) {
+        char alp = terms[i][0];
+        int month = stoi(terms[i].substr(2, terms[i].size() - 2));
+        map_terms[alp] = month;
+    }
+    
+    int year_today = stoi(today.substr(0, 4));
+    int month_today = stoi(today.substr(5, 2));
+    int day_today = stoi(today.substr(8, 2));
+    int total = year_today * 12 * 28 + (month_today-1) * 28 + day_today;
+    
+    int idx = 1;
+    for(string str: privacies) { 
+        
+        int year = stoi(str.substr(0, 4));
+        int month = stoi(str.substr(5, 2));
+        int day = stoi(str.substr(8, 2));
+        char alp = str[str.length() - 1];
+        
+        month += map_terms[alp];
+        while(month > 12) {
+            year += 1;
+            month -= 12;
+        }
+        
+        int total_priv = year * 12 * 28 + (month-1) * 28 + day;
+        if(total_priv <= total) {
+            answer.push_back(idx);
+        }
+        
+        idx++;
+    }
+    
+    return answer;
+}
