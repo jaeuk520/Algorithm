@@ -1,0 +1,42 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+
+int min_keymap[26];
+
+vector<int> solution(vector<string> keymap, vector<string> targets) {
+    vector<int> answer;
+    
+    for(int i=0; i<26; i++) {
+        min_keymap[i] = 1000;
+    }
+    
+    //min_keymap 초기화
+    for(int i=0; i<26; i++) {
+        for(int j=0; j<keymap.size(); j++) {
+            auto iter = find(keymap[j].begin(), keymap[j].end(), 'A'+i);
+            if (iter - keymap[j].end() != 0) {
+                if(iter - keymap[j].begin() < min_keymap[i]) {
+                    min_keymap[i] = iter - keymap[j].begin() + 1;   
+                }
+            } 
+        }
+    }
+    
+    for(int i=0; i<targets.size(); i++) {
+        int sum = 0;
+        for(int j=0; j<targets[i].size(); j++) {
+            if(min_keymap[targets[i][j] - 'A'] == 1000) {
+                sum = -1;
+                break;
+            }
+            sum += min_keymap[targets[i][j] - 'A'];
+        }
+        answer.push_back(sum);   
+    }
+    
+    return answer;
+}
