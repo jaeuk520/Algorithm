@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+using namespace std;
+
+string solution(vector<int> food) {
+    string answer = "";
+    
+    string food_left = "";
+    
+    for(int i=1; i<food.size(); i++) {
+        food_left.append(food[i] / 2, i + '0');
+    }
+    
+    answer = food_left + '0';
+    reverse(food_left.begin(), food_left.end());
+    answer += food_left;
+    
+    return answer;
+}
