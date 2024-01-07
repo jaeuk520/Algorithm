@@ -1,0 +1,37 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int solution(vector<string> babbling) {
+    int answer = 0;
+    
+    string words[4] = {"aya", "ye", "woo", "ma"};
+    
+    for(string str: babbling) {
+        bool flag = true;
+        char last = ' ';
+        
+        for(int i=0; i<str.size(); i++) {
+            if(i+2 < str.size() && str[i] != last && str[i] == 'a' && str[i+1] == 'y' && str[i+2] == 'a') {
+                i += 2;
+                last = 'a';
+            } else if(i+1 < str.size() && str[i] != last && str[i] == 'y' && str[i+1] == 'e') {
+                i += 1;
+                last = 'y';
+            } else if(i+2 < str.size() && str[i] != last && str[i] == 'w' && str[i+1] == 'o' && str[i+2] == 'o') {
+                i += 2;
+                last = 'w';
+            } else if(i+1 < str.size() && str[i] != last && str[i] == 'm' && str[i+1] == 'a') {
+                i += 1;
+                last = 'm';
+            } else {
+                flag = false;
+                break;
+            }
+        }
+        if(flag) answer++;
+    }
+    
+    return answer;
+}
