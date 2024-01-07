@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+vector<int> solution(int k, vector<int> score) {
+    vector<int> answer;
+    
+    vector<int> hof;
+    
+    if(k > score.size()) {
+        for(int i=1; i<=score.size(); i++) {
+            hof.push_back(score[i-1]);
+            sort(hof.begin(), hof.end());
+            answer.push_back(hof[0]);
+        }
+        return answer;
+    }
+    
+    // k일까지는 insert
+    for(int i=1; i<=k; i++) {
+        hof.push_back(score[i-1]);
+        sort(hof.begin(), hof.end());
+        answer.push_back(hof[0]);
+    }
+    
+    // k+1일~
+    for(int i=k+1; i<=score.size(); i++) {
+        if(score[i-1] > hof[0]) {
+            hof[0] = score[i-1];
+            sort(hof.begin(), hof.end());
+        }
+        answer.push_back(hof[0]);
+    }
+    
+    return answer;
+}
