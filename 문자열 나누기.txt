@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(string s) {
+    int answer = 0;
+    
+    char x;
+    int cnt_x=0;
+    int cnt_not_x=0;
+    bool isStart = true;
+    
+   for(int i=0; i<s.length(); i++) {
+       if(isStart) {
+           x = s[i];
+           cnt_x = 1;
+           cnt_not_x = 0;
+           isStart = false;
+           continue;
+       }
+       
+       if(x == s[i]) {
+           cnt_x++;
+       } else {
+           cnt_not_x++;
+       }
+       
+       if(cnt_x == cnt_not_x) {
+           isStart = true;
+           answer++;
+           continue;
+       }
+       
+   }
+    
+    if(cnt_x != cnt_not_x) answer++;
+    
+    return answer;
+}
