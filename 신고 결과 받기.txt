@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <iostream>
+using namespace std;
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k) {
+    vector<int> answer;
+    
+    map<string, set<string>> m;
+    map<string, int> report_cnt;
+    
+    for(string str: report) {
+        int idx = str.find(" ", 0);
+        string a = str.substr(0, idx);
+        string b = str.substr(idx);
+        
+        m[a].insert(b);
+    }
+
+    //신고당한 횟수 계산
+    for(string id: id_list) {
+        for(auto iter = m[id].begin(); iter != m[id].end(); iter++) {
+            report_cnt[*iter]++;
+        }
+    }
+    
+    for(string id: id_list) {
+        int sum = 0;
+        for(auto iter = m[id].begin(); iter != m[id].end(); iter++) {
+            if(report_cnt[*iter] >= k) sum++;
+        }
+        answer.push_back(sum);
+    }
+    
+    return answer;
+}
