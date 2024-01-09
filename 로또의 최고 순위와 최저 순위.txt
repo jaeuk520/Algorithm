@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
+vector<int> solution(vector<int> lottos, vector<int> win_nums) {
+    vector<int> answer;
+    
+    map<int, int> m;
+    int correct_cnt = 0;
+    int zero_cnt = 0;
+    
+    for(int num: win_nums) {
+        m[num]++;
+    }
+    
+    for(int num: lottos) {
+        if(num == 0) {
+            zero_cnt++;
+            continue;
+        }
+        if(m[num] != 0) {
+            correct_cnt++;
+        }
+    }
+    
+    int best = correct_cnt + zero_cnt;
+    if(best >= 6) best = 6;
+    else if(best < 2) best = 1;
+    
+    int worst = correct_cnt;
+    if(worst < 2) worst = 1;
+    
+    answer.push_back(7-best);
+    answer.push_back(7-worst);
+    
+    return answer;
+}
