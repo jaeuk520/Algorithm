@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+int solution(vector<vector<int>> board, vector<int> moves) {
+    int answer = 0;
+    
+    stack<int> s;
+    
+    for(int num: moves) {
+        int idx = num - 1;
+        for(int i=0; i<board.size(); i++) {
+            if(board[i][idx] != 0) {
+                if(!s.empty() && s.top() == board[i][idx]) {
+                    answer++;
+                    s.pop();
+                } else {
+                    s.push(board[i][idx]);
+                }
+                board[i][idx] = 0;
+                break;
+            }
+        }
+    }
+    
+    return answer * 2;
+}
