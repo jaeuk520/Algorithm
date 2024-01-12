@@ -1,0 +1,84 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int keypad[12][12];
+
+string solution(vector<int> numbers, string hand) {
+    string answer = "";
+    
+    keypad[0][2] = 3;
+    keypad[0][5] = 2;
+    keypad[0][8] = 1;
+    
+    keypad[8][2] = 2;
+    keypad[8][5] = 1;
+    keypad[8][0] = 1;
+    
+    keypad[5][2] = 1;
+    keypad[5][8] = 1;
+    keypad[5][0] = 2;
+    
+    keypad[2][5] = 1;
+    keypad[2][8] = 2;
+    keypad[2][0] = 3;
+    
+    keypad[1][2] = 1, keypad[3][2] = 1;
+    keypad[1][5] = 2, keypad[3][5] = 2;
+    keypad[1][8] = 3, keypad[3][8] = 3;
+    keypad[1][0] = 4, keypad[3][0] = 4;
+    
+    keypad[4][2] = 2, keypad[6][2] = 2;
+    keypad[4][5] = 1, keypad[6][5] = 1;
+    keypad[4][8] = 2, keypad[6][8] = 2;
+    keypad[4][0] = 3, keypad[6][0] = 3;
+    
+    keypad[7][2] = 3, keypad[9][2] = 3;
+    keypad[7][5] = 2, keypad[9][5] = 2;
+    keypad[7][8] = 1, keypad[9][8] = 1;
+    keypad[7][0] = 2, keypad[9][0] = 2;
+    
+    keypad[10][2] = 4, keypad[11][2] = 4;
+    keypad[10][5] = 3, keypad[11][5] = 3;
+    keypad[10][8] = 2, keypad[11][8] = 2;
+    keypad[10][0] = 1, keypad[11][0] = 1;
+    
+    int left = 10;
+    int right = 11;
+    
+    for(int num: numbers) {
+        if(num == 1 || num == 4 || num == 7) {
+            left = num;
+            answer += "L";
+            continue;
+        }
+        if(num == 3 || num == 6 || num == 9) {
+            right = num;
+            answer += "R";
+            continue;
+        }
+        if(keypad[left][num] < keypad[right][num]) {
+            left = num;
+            answer += "L";
+            continue;
+        }
+        if(keypad[left][num] > keypad[right][num]) {
+            right = num;
+            answer += "R";
+            continue;
+        }
+        if(hand == "right") {
+            right = num;
+            answer += "R";
+            continue;
+        }
+        if(hand == "left") {
+            left = num;
+            answer += "L";
+            continue;
+        }
+    }
+    
+    return answer;
+}
