@@ -1,0 +1,43 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+bool compare(pair<int, double> a, pair<int, double> b) {
+    if(a.second == b.second) {
+        return a.first < b.first;
+    }
+    return a.second > b.second;
+}
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+    
+    map<int, int> m;
+    vector<pair<int, double>> fail;
+    
+    for(int num: stages) {
+        m[num]++;
+    }
+    
+    int count = m[N+1];
+    
+    for(int i=N; i>=1; i--) {
+        count += m[i];
+        if(count == 0 && m[i] == 0) {
+            fail.push_back(pair<int, double>(i, (double)0));
+            continue;
+        }
+        fail.push_back(pair<int, double>(i, m[i] / (double)count));
+    }
+    
+    sort(fail.begin(), fail.end(), compare);
+    
+    for(int i=0; i<fail.size(); i++) {
+        answer.push_back(fail[i].first);
+    }
+    
+    return answer;
+}
