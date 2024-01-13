@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer = 0;
+    
+    map<int, int> m;
+    
+    for(int num: lost) {
+        m[num]--;
+    }
+    
+    for(int num: reserve) {
+        m[num]++;
+    }
+    
+    for(int i=1; i<=n; i++) {
+        if(m[i] == -1) {
+            if(i - 1 >= 1 && m[i-1] == 1) {
+                m[i-1]--;
+                m[i]++;
+                answer++;
+                continue;
+            }
+            if(i + 1 <= n && m[i+1] == 1) {
+                m[i+1]--;
+                m[i]++;
+                answer++;
+                continue;
+            }
+        } else {
+            answer++;
+        }
+    }
+    
+    return answer;
+}
