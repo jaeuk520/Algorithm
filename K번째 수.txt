@@ -1,0 +1,21 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+    
+    vector<int> v[commands.size()];
+    
+    for(int i=0; i<commands.size(); i++) {
+        int k = commands[i][2];
+        for(int m = commands[i][0] - 1; m < commands[i][1]; m++) {
+            v[i].push_back(array[m]);
+        }
+        sort(v[i].begin(), v[i].end());
+        answer.push_back(v[i][k-1]);
+    }
+    
+    return answer;
+}
