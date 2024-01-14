@@ -1,0 +1,28 @@
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    
+    map<string, int> m;
+    
+    for(string str: participant) {
+        m[str]++;
+    }
+    
+    for(string str: completion) {
+        m[str]--;
+    }
+    
+    for(string str: participant) {
+        if(m[str] != 0) {
+            answer+=str;
+            break;
+        }
+    }
+    
+    return answer;
+}
