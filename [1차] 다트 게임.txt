@@ -1,0 +1,52 @@
+#include <string>
+#include <map>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int solution(string dartResult) {
+    int answer = 0;
+    //map<char, vector<int>> m;
+    vector<int> v;
+    int idx = 0;
+    map<int, char> m;
+    int option = 0;
+    
+    for(int i=0; i<dartResult.length(); i++) {
+        if(dartResult[i] == 'S' || dartResult[i] == 'D' || dartResult[i] == 'T') {
+            int num = stoi(dartResult.substr(idx, i));
+            
+            if(dartResult[i] == 'D') {
+                num = num * num;
+            } else if(dartResult[i] == 'T') {
+                num = num * num * num;
+            }
+            v.push_back(num);
+            
+            idx = i + 1;
+            if(idx < dartResult.length() && dartResult[idx] == '*' || dartResult[idx] == '#') {
+                m[option] = dartResult[idx];
+                idx++;
+            }
+            option++;
+        }
+    }
+    
+    for(int i=0; i<3; i++) {
+        if(m[i] == '*' && i == 0) {
+            v[i] *= 2;
+            continue;
+        }
+        if(m[i] == '*') {
+            v[i] *= 2;
+            v[i-1] *= 2;
+            continue;
+        }
+        if(m[i] == '#') {
+            v[i] *= -1;
+            continue;
+        }
+    }
+    answer = v[0] + v[1] + v[2];
+    return answer;
+}
