@@ -1,0 +1,46 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> sequence, int k) {
+    vector<int> answer;
+    vector<pair<int, pair<int, int>>> v;
+    queue<int> q;
+    int start_idx = 0;
+    int end_idx = -1;
+    int sum = 0;
+    
+    for(int num: sequence) {
+        q.push(num);
+        sum += num;
+        end_idx++;
+        
+        if(sum == k) {
+            v.push_back(make_pair(end_idx - start_idx, make_pair(start_idx, end_idx)));
+            sum -= q.front();
+            q.pop();
+            start_idx++;
+            continue;
+        }
+        
+        if(sum > k) {
+            while(sum > k) {
+                sum -= q.front();
+                q.pop();
+                start_idx++;
+                }
+            if(sum == k) {
+                    v.push_back(make_pair(end_idx - start_idx, make_pair(start_idx, end_idx)));
+            }    
+        }   
+    }
+    
+    sort(v.begin(), v.end());
+    answer.push_back(v[0].second.first);
+    answer.push_back(v[0].second.second);
+    
+    return answer;
+}
