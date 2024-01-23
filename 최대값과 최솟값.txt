@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+    
+    int min = 1000000000;
+    int max = -1000000000;
+    
+    for(int i=0; i<s.length(); i++) {
+        
+        int num = 1;
+        
+        if(s[i] == ' ') continue;
+        
+        if(s[i] == '-') {
+            i++;
+            num *= -1;
+        }
+        
+        string temp;
+        
+        while(i < s.length() && s[i] != ' ') {
+            temp += s[i];
+            i++;
+        }
+        
+        num = stoi(temp) * num;
+        
+        if(num < min) min = num;
+        if(num > max) max = num;
+        
+    }
+    
+    answer = to_string(min) + " " + to_string(max);
+    
+    return answer;
+}
