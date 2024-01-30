@@ -1,0 +1,35 @@
+#include <string>
+#include <vector>
+#include <regex>
+using namespace std;
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    
+    int change_count = 0;
+    int zero_count = 0;
+    
+    while(s.length() > 1) {
+        
+        int temp = s.length();
+        s = regex_replace(s, regex("0"), "");
+        
+        zero_count += temp - s.length();
+        change_count++;
+        
+        int x = s.length();
+        string str = "";
+        while(x != 1) {
+            int rem = x % 2;
+            str = to_string(rem) + str;
+            x /= 2;
+        }
+        str = to_string(x) + str;
+        s = str;
+    }
+    
+    answer.push_back(change_count);
+    answer.push_back(zero_count);
+    
+    return answer;
+}
