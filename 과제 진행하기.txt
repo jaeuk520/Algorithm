@@ -1,0 +1,82 @@
+#include <string>
+#include <vector>
+#include <stack>
+#include <map>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+stack<string> s;
+map<string, int> m;
+vector<pair<string, int>> v;
+
+bool compare(pair<string, int> p1, pair<string, int> p2) {
+    return p1.second < p2.second;
+}
+
+vector<string> solution(vector<vector<string>> plans) {
+    vector<string> answer;
+    
+    for(int i=0; i<plans.size(); i++) {
+        int hour = stoi(plans[i][1].substr(0, 2));
+        int min = stoi(plans[i][1].substr(3, 2));
+        int time = hour * 60 + min;
+        
+        v.push_back(make_pair(plans[i][0], time));
+        m[plans[i][0]] = stoi(plans[i][2]);
+    }
+    
+    sort(v.begin(), v.end(), compare);
+    
+    for(int i=0; i<v.size(); i++) {
+        string hw = v[i].first;
+        int start_time = v[i].second;
+        
+        if(i+1 < v.size()) {
+            // 새로운 과제를 시작할 시각이 되었을 때, 기존에 진행 중이던 과제 존재
+            if(start_time + m[hw] > v[i+1].second) {
+                m[hw] -= v[i+1].second - start_time;
+                s.push(hw);
+                continue;
+            } else if(start_time + m[hw] == v[i+1].second) {
+                answer.push_back(hw);
+                m[hw] = 0;
+                continue;
+            } else {
+                answer.push_back(hw);
+                start_time += m[hw];
+                // 진행중이던 과제를 끝냈을 때, 잠시 멈춘 과제가 있다면, 멈춰둔 과제를 이어서 진행
+                while(!s.empty()) {
+                    hw = s.top();
+                    s.pop();
+                    if(start_time + m[hw] > v[i+1].second) {
+                        m[hw] -= v[i+1].second - start_time;
+                        s.push(hw);
+                        break;
+                    } else if(start_time + m[hw] == v[i+1].second) {
+                        answer.push_back(hw);
+                        m[hw] = 0;
+                        break;
+                    } else {
+                        answer.push_back(hw);
+                        start_time += m[hw];
+                        m[hw] = 0;
+                    }
+                }
+            }
+        } 
+        // 마지막 과제
+        else {
+            answer.push_back(hw);
+            start_time += m[hw];
+            m[hw] = 0;
+            while(!s.empty()) {
+                hw = s.top();
+                s.pop();
+                answer.push_back(hw);
+            }
+        }
+    }
+    
+    return answer;
+}
