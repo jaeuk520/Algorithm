@@ -1,0 +1,82 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+#define MAX 100000000
+using namespace std;
+
+int answer;
+
+map<pair<string, string>, int> m;
+map<string, int> m_cnt;
+string diamond = "diamond";
+string iron = "iron";
+string stone = "stone";
+
+void dfs(string root, vector<string> minerals, int idx, int sum) {
+    
+    // 곡괭이 있는지 확인
+    if(m_cnt[root] == 0) return;
+    
+    m_cnt[root]--;
+    
+    for(int i=0; i<5; i++, idx++) {
+        //더 이상 캘 광물이 없는 경우
+        if(idx >= minerals.size()) {
+            if(sum < answer) {
+                answer = sum;
+            }
+            m_cnt[root]++;
+            return;
+        }
+        sum += m[pair<string, string>(root, minerals[idx])];
+    }
+    
+    //곡괭이가 더 이상 존재하지 않는 경우
+    if((m_cnt[diamond] == 0)
+       && (m_cnt[iron] == 0)
+       && (m_cnt[stone] == 0)) {
+        if(sum < answer) {
+            answer = sum;
+        }
+        m_cnt[root]++;
+        return;
+    }
+    
+    dfs(diamond, minerals, idx, sum);
+    dfs(iron, minerals, idx, sum);
+    dfs(stone, minerals, idx, sum);
+    
+    m_cnt[root]++;
+}
+
+void init_m_cnt(vector<int> picks) {
+    m_cnt[diamond] = picks[0];
+    m_cnt[iron] = picks[1];
+    m_cnt[stone] = picks[2];
+}
+
+int solution(vector<int> picks, vector<string> minerals) {
+    answer = MAX;
+    
+    m[make_pair(diamond, diamond)] = 1;
+    m[make_pair(diamond, iron)] = 1;
+    m[make_pair(diamond, stone)] = 1;
+    m[make_pair(iron, diamond)] = 5;
+    m[make_pair(iron, iron)] = 1;
+    m[make_pair(iron, stone)] = 1;
+    m[make_pair(stone, diamond)] = 25;
+    m[make_pair(stone, iron)] = 5;
+    m[make_pair(stone, stone)] = 1;
+    
+    init_m_cnt(picks);
+    dfs(diamond, minerals, 0, 0);
+    
+    init_m_cnt(picks);
+    dfs(iron, minerals, 0, 0);
+    
+    init_m_cnt(picks);
+    dfs(stone, minerals, 0, 0);
+    
+    return answer;
+}
