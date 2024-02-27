@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+int min(int a, int b) {
+    if(a < b) return a;
+    return b;
+}
+
+int max(int a, int b) {
+    if(a > b) return a;
+    return b;
+}
+
+vector<int> solution(int m, int n, int startX, int startY, vector<vector<int>> balls) {
+    vector<int> answer;
+    
+    for(vector<int> v: balls) {
+        int x = v[0];
+        int y = v[1];
+        long long sum = 1000000000;
+        
+        int bigY = max(startY, y);
+        int smallY = min(startY, y);
+        
+        //왼쪽 원쿠션
+        if(!(startX > x && y == startY)) {
+            long long d1 = pow(startX + x, 2) + pow(bigY - smallY , 2);
+            sum = min(sum, d1);    
+        }
+        
+        //오른쪽 원쿠션
+        if(!(x > startX && y == startY)) {
+            int newX = startX + (m - startX) * 2;
+            long long d2 = pow(newX - x, 2) + pow(bigY - smallY, 2);
+            sum = min(sum, d2);   
+        }
+        
+        int bigX = max(startX, x);
+        int smallX = min(startX, x);
+        
+        //위쪽 원쿠션
+        if(!(y > startY && x == startX)) {
+            int newY = startY + 2 * (n - startY);
+            long long d3 = pow(newY - y, 2) + pow(bigX - smallX, 2);
+            sum = min(sum, d3);
+        }
+        
+        //아래쪽 원쿠션
+        if(!(startY > y && x == startX)) { 
+            long long d4 = pow(startY + y, 2) + pow(bigX - smallX, 2);
+            sum = min(sum, d4);   
+        }
+            
+        answer.push_back(sum);
+        
+    }
+    
+    return answer;
+}
