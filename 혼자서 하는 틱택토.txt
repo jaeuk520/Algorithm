@@ -1,0 +1,92 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+int solution(vector<string> board) {
+    
+    int cntO = 0;
+    int cntX = 0;
+    
+    for(string str: board) {
+        for(char c: str) {
+            if (c == 'O') cntO++;
+            else if(c == 'X') cntX++;
+        }
+    }
+    
+    if(cntO < cntX) return 0;
+    if(cntO >= cntX + 2) return 0;
+    
+    char c11 = board[0][0];
+    char c12 = board[0][1];
+    char c13 = board[0][2];
+    char c21 = board[1][0];
+    char c22 = board[1][1];
+    char c23 = board[1][2];
+    char c31 = board[2][0];
+    char c32 = board[2][1];
+    char c33 = board[2][2];
+    
+    int totalO = 0;
+    int totalX = 0;
+    
+    if((c11 == c12 && c11 == c13) && c11 != '.') {
+        if(c11 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c21 == c22 && c21 == c23) && c21 != '.') {
+        if(c21 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c31 == c32 && c31 == c33) && c31 != '.') {
+        if(c31 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c11 == c21 && c11 == c31) && c11 != '.') {
+        if(c11 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c12 == c22 && c12 == c32) && c12 != '.') {
+        if(c12 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c13 == c23 && c13 == c33) && c13 != '.') {
+        if(c13 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c11 == c22 && c11 == c33) && c11 != '.') {
+        if(c11 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if((c13 == c22 && c13 == c31) && c13 != '.') {
+        if(c13 == 'O') totalO++;
+        else totalX++;
+    }
+    
+    if(totalX * totalO != 0) {
+        return 0;
+    }
+    
+    if(totalX == 1 && totalO == 0) {
+        if(cntX + 1 == cntO) {
+            return 0;
+        }
+    }
+    
+    if(totalX == 0 && totalO == 1) {
+        if(cntX == cntO) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}
