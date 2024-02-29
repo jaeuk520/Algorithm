@@ -1,0 +1,111 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+int dx[4] = {0, 0, 1, -1};
+int dy[4] = {1, -1, 0, 0};
+
+bool visit[100][100];
+
+int cnt;
+
+pair<int,int> bfs(vector<string> maps, pair<int,int> start, bool is_door_opened, queue<pair<int, int>> q) {
+    
+    q.push(start);
+    visit[start.first][start.second] = true;
+    
+    while(!q.empty()) {
+        
+        int size = q.size();
+        
+        for(int i=0; i<size; i++) {
+            
+            pair<int,int> xy = q.front();
+            int x = xy.first;
+            int y = xy.second;
+            // visit[x][y] = true;
+            q.pop();
+            
+            for(int j=0; j<4; j++) {
+                
+                // 이미 방문한 곳일 경우
+                if(visit[x + dx[j]][y + dy[j]]) continue;
+                
+                // 범위를 넘어간 경우
+                if(x + dx[j] < 0 || 
+                   y + dy[j] < 0 || 
+                  x + dx[j] >= maps.size() || 
+                   y + dy[j] >= maps[0].size()) continue;
+                
+                // X(벽)에 막힌 경우
+                if(maps[x + dx[j]][y + dy[j]] == 'X') continue;
+                
+                // 레버
+                if(maps[x + dx[j]][y + dy[j]] == 'L') {
+                    if(!is_door_opened) {
+                        cnt++;
+                        return make_pair(x + dx[j], y + dy[j]);   
+                    } else {
+                        q.push(make_pair(x + dx[j], y + dy[j]));
+                        visit[x + dx[j]][y + dy[j]] = true;
+                        continue;
+                    }
+                }
+                
+                // EXIT
+                if(maps[x + dx[j]][y + dy[j]] == 'E') {
+                    if(is_door_opened) {
+                        cnt++;
+                        return make_pair(x + dx[j], y + dy[j]);
+                    }
+                    else {
+                        q.push(make_pair(x + dx[j], y + dy[j])); 
+                        visit[x + dx[j]][y + dy[j]] = true;
+                        continue;
+                    }
+                }
+                
+                // O
+                if(maps[x + dx[j]][y + dy[j]] == 'O' || 
+                  maps[x + dx[j]][y + dy[j]] == 'S') {
+                    q.push(make_pair(x + dx[j], y + dy[j]));
+                    visit[x + dx[j]][y + dy[j]] = true;
+                }
+            }
+        }
+        cnt++;
+    }
+    return make_pair(-1, -1);
+}
+
+int solution(vector<string> maps) {
+    
+    pair<int, int> start;
+    pair<int, int> end;
+    
+    for(int i=0; i<maps.size(); i++) {
+        for(int j=0; j<maps[i].size(); j++) {
+            if(maps[i][j] == 'S') {
+                start = make_pair(i, j);
+                break;
+            }
+        }
+    }
+    
+    queue<pair<int, int>> q1;
+    
+    start = bfs(maps, start, false, q1);
+    if(start.first == -1 && start.second == -1) return -1;
+    
+    memset(visit, false, sizeof(visit));
+    
+    queue<pair<int, int>> q2;
+    
+    end = bfs(maps, start, true, q2);
+    if(end.first == -1 && end.second == -1) return -1;
+    
+    return cnt;
+}
