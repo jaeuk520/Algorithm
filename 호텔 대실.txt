@@ -1,0 +1,56 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+bool compare(vector<string> s1, vector<string> s2) {
+    return s1[1] < s2[1];
+}
+
+int solution(vector<vector<string>> book_time) {
+    int answer = 1;
+    
+    sort(book_time.begin(), book_time.end(), compare);
+    
+    vector<string> room;
+    
+    room.push_back(book_time[0][1]);
+    
+    for(int i=1; i<book_time.size(); i++) {
+        string start_time = book_time[i][0];
+        string start_hour = start_time.substr(0, 2);
+        string start_minute = start_time.substr(3, 5);
+        int start_time_int = stoi(start_hour) * 60 * 60 + stoi(start_minute) * 60;
+        
+        int min = 60 * 23 * 60 + 60 * 60;
+        int idx = -1;
+        
+        for(int j=0; j<room.size(); j++) {
+            string end_time = room[j];
+            string end_hour = end_time.substr(0, 2);
+            string end_minute = end_time.substr(3, 5);
+            int end_time_int = stoi(end_hour) * 60 * 60 + stoi(end_minute) * 60;
+            
+            int temp = start_time_int - end_time_int - 10 * 60;
+            
+            if(temp >= 0 && temp < min) {
+                min = temp;
+                idx = j;
+            }
+        }
+        
+        if(min != 60 * 23 * 60 + 60 * 60) {
+            room[idx] = book_time[i][1];
+            continue;
+        }
+        
+        if(min == 60 * 23 * 60 + 60 * 60) {
+            room.push_back(book_time[i][1]);
+            answer++;
+        }
+        
+    }
+    
+    return answer;
+}
