@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int storey) {
+    int answer = 0;
+    
+    bool flag = false;
+    
+    while(storey > 0) {
+        
+        int num = storey % 10;
+        storey /= 10;
+        
+        if(flag) {
+            if(num >= 5) num++;
+            flag = false;
+        }
+        
+        if(num > 5) {
+            answer += 10 - num;
+            storey++;
+        }
+        else answer += num;
+        
+        if(num == 5) flag = true;
+        
+    }
+    
+    return answer;
+}
