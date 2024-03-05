@@ -1,0 +1,43 @@
+#include <string>
+#include <vector>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+long long solution(int cap, int n, vector<int> deliveries, vector<int> pickups) {
+    long long answer = 0;
+    
+    stack<int> ds;
+    stack<int> ps;
+    
+    for(int i=0; i<deliveries.size(); i++) {
+        if(deliveries[i] != 0) {
+            for(int j=0; j<deliveries[i]; j++) {
+                ds.push(i+1);
+            }
+        }
+    }
+    
+    for(int i=0; i<pickups.size(); i++) {
+        if(pickups[i] != 0) {
+            for(int j=0; j<pickups[i]; j++) {
+                ps.push(i+1);
+            }
+        }
+    }
+    
+    while(!ds.empty() || !ps.empty()) {
+        
+        if(ds.empty() && !ps.empty()) answer += ps.top() * 2;
+        else if(!ds.empty() && ps.empty()) answer += ds.top() * 2;
+        else answer += 2 * max(ds.top(), ps.top());
+        
+        for(int i=0; i<cap; i++) {
+            if(!ds.empty()) ds.pop();
+            if(!ps.empty()) ps.pop();
+        }
+        
+    }
+    
+    return answer;
+}
