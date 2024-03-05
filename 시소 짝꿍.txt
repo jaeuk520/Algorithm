@@ -1,0 +1,44 @@
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
+long long visit[1001]; 
+map<long long, long long> m;
+
+long long solution(vector<int> weights) {
+    long long answer = 0;
+    
+    for(int weight: weights) {
+        
+        if(visit[weight] != 0) {
+            answer += visit[weight];
+            
+            if(m[2 * weight] > 0) answer += m[2 * weight];
+            if(m[3 * weight] > 0) answer += m[3 * weight];
+            if(m[4 * weight] > 0) answer += m[4 * weight];
+            
+            answer -= visit[weight] * 3;
+                
+            visit[weight]++;
+            
+            m[2 * weight]++;
+            m[3 * weight]++;
+            m[4 * weight]++;
+            
+            continue;
+        }
+        visit[weight]++;
+        
+        if(m[2 * weight] > 0) answer += m[2 * weight];
+        if(m[3 * weight] > 0) answer += m[3 * weight];
+        if(m[4 * weight] > 0) answer += m[4 * weight];
+        
+        m[2 * weight]++;
+        m[3 * weight]++;
+        m[4 * weight]++;
+        
+    }
+    
+    return answer;
+}
