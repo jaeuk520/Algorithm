@@ -1,0 +1,39 @@
+#include <string>
+#include <vector>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+int max(int a, int b) {
+    if(a > b) return a;
+    return b;
+}
+
+int min(int a, int b) {
+    if(a < b) return a;
+    return b;
+}
+
+int div(long long n, long long l, long long r) {
+    
+    if(l > r) return 0;
+    
+    if(n==1) {
+        return 1;
+    }
+    
+    long long sum = 0;
+    n /= 5;
+    
+    for(int i=0; i<5; i++){
+        if(i == 2) continue;
+        sum += div(n, max(l, n * i) - (n * i), min(r, n * (i+1) - 1) - (n * i));
+    }
+    return sum;
+}
+
+int solution(int n, long long l, long long r) {
+    
+    return div(pow(5, n), --l, --r);
+    
+}
