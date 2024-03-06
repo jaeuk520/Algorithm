@@ -1,0 +1,25 @@
+#include <string>
+#include <vector>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+long long solution(int k, int d) {
+    long long answer = 0;
+    
+    long long d2 = pow(d,2);
+    
+    for(int i=0; i<=d; i+=k) {
+        long long y2 = d2 - pow(i,2);
+        long long y = sqrt(y2);
+        while(y>=0) {
+            if(y % k == 0) {
+                answer += y / k + 1;
+                break;
+            }
+            y--;
+        }
+    }
+    
+    return answer;
+}
