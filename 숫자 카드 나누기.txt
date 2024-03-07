@@ -1,0 +1,86 @@
+#include <string>
+#include <vector>
+#include <set>
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+int max(int a, int b) {
+    if(a > b) return a;
+    return b;
+}
+
+int min(int a, int b) {
+    if(a < b) return a;
+    return b;
+}
+
+int gcd(int a, int b) {
+    int r;
+    while(r != 0) {
+        r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
+}
+
+int solution(vector<int> arrayA, vector<int> arrayB) {
+    int answer = 0;
+    
+    int num = arrayA[0];
+        
+    for(int i=1; i<arrayA.size(); i++) {
+        num = gcd(max(num, arrayA[i]), min(num, arrayA[i]));
+    }
+    
+    int gcdA = num;
+    
+    set<int> sA;
+    
+    for(int i=1; i<=sqrt(gcdA); i++) {
+        if(gcdA % i == 0) {
+            sA.insert(i);
+            sA.insert(gcdA / i);
+        }
+    }
+    
+    num = arrayB[0];
+    
+    for(int i=1; i<arrayB.size(); i++) {
+        num = gcd(max(num, arrayB[i]), min(num, arrayB[i]));
+    }
+    
+    int gcdB = num;
+    
+    set<int> sB;
+    
+    for(int i=1; i<=sqrt(gcdB); i++) {
+        if(gcdB % i == 0) {
+            sB.insert(i);
+            sB.insert(gcdB / i);
+        }
+    }
+    
+    for(int n: sA) {
+        bool flag = false;
+        for(int i=0; i<arrayB.size(); i++) {
+            if(arrayB[i] % n == 0) flag = true;
+        }
+        if(!flag && n > answer) {
+            answer = n;
+        }
+    }
+    
+    for(int n: sB) {
+        bool flag = false;
+        for(int i=0; i<arrayA.size(); i++) {
+            if(arrayA[i] % n == 0) flag = true;
+        }
+        if(!flag && n > answer) {
+            answer = n;
+        }
+    }
+    
+    return answer;
+}
