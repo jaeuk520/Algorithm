@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+int solution(vector<int> order) {
+    int answer = 0;
+    
+    stack<int> s;
+    
+    int max = 0;
+    
+    int i=0;
+    for(i; i<order.size(); i++) {
+        if(max < order[i]) {
+            for(int j=max+1; j<order[i]; j++) {
+                s.push(j);
+            }
+            max = order[i];
+            continue;
+        }
+        if(max > order[i]) {
+            if(!s.empty() && s.top() == order[i]) {
+                s.pop();
+            }
+            else return i;
+        }
+    }
+    
+    return i;
+}
