@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <map>
+using namespace std;
+
+int solution(int k, vector<int> tangerine) {
+    int answer = 0;
+    
+    priority_queue<int, vector<int>, less<int>> pq;
+    map<int,int> m;
+
+    for(int n: tangerine) {
+        m[n]++;
+    }
+    
+    for(int i=1; i<=10000000; i++) {
+        if(m[i] == 0) continue;
+        pq.push(m[i]);
+    }
+    
+    int size = pq.size();
+    
+    for(int i=1; i<=size; i++) {
+        int t = pq.top();
+        pq.pop();
+        k -= t;
+        if(k <= 0) return i;
+    }
+}
