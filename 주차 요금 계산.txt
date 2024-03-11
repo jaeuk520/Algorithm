@@ -1,0 +1,61 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <set>
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+map<string, int> m_in;
+map<string, int> sum;
+set<string> s;
+bool visit[10000];
+
+vector<int> solution(vector<int> fees, vector<string> records) {
+    vector<int> answer;
+    
+    for(string str: records) {
+        
+        int hour = stoi(str.substr(0, 2));
+        int min = stoi(str.substr(3, 2));
+        
+        int time = 60 * hour + min;
+        
+        string num = str.substr(6, 4);
+        string io = str. substr(11);
+        
+        if(io == "IN") {
+            s.insert(num);
+            m_in[num] = time;
+            visit[stoi(num)] = true;
+        } else {
+            //출차
+            int t = time - m_in[num];
+            sum[num] += t;
+            visit[stoi(num)] = false;
+        }
+    }
+    
+    for(string str: s) {
+        int num = stoi(str);
+        if(visit[num]) {
+            int t = 23 * 60 + 59 - m_in[str];
+            sum[str] += t;
+            visit[num] = false;
+        } 
+        
+        int t = sum[str];
+        if(t <= fees[0]) answer.push_back(fees[1]);
+        else {
+            int temp;
+            if((t-fees[0])%fees[2] == 0) temp = (t-fees[0])/fees[2];
+            else temp = (t-fees[0])/fees[2] + 1;
+            temp = fees[1] + temp * fees[3];
+            answer.push_back(temp);
+        }
+    }
+    
+    
+    return answer;
+}
