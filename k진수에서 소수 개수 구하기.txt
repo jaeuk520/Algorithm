@@ -1,0 +1,49 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+bool is_prime(long long num) {
+    if(num == 0 || num == 1) return false;
+    for(long long i=2; i<=sqrt(num); i++) {
+        if(num % i == 0) return false;
+    }
+    return true;
+}
+
+int solution(int n, int k) {
+    long long answer = 0;
+    
+    vector<long long> v;
+    
+    while(n >= k) {
+        v.push_back(n % k);
+        n /= k;
+    }
+    v.push_back(n);
+    reverse(v.begin(), v.end());
+    
+    string str = "";
+    for(long long n: v) {
+        str += to_string(n);
+    }
+    
+    long long point = 0;
+    for(long long i=0; i<str.size(); i++){
+        if(str[i] == '0') {
+            if(i - point == 0) continue;
+            long long num = stol(str.substr(point, i - point));
+            point = i + 1;
+            if(is_prime(num)) answer++;
+        }
+    }
+    
+    if(point == str.size()) return answer;
+    
+    long long num = stol(str.substr(point));
+    if(is_prime(num)) answer++;
+    
+    return answer;
+}
