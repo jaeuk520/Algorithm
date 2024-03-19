@@ -1,0 +1,68 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+using namespace std;
+
+map<int, int> m_out;
+map<int, int> m_in;
+int max_num = -1;
+
+vector<int> solution(vector<vector<int>> edges) {
+    vector<int> answer;
+    
+    for(vector<int> e: edges) {
+        
+        int out = e[0];
+        int in = e[1];
+        
+        m_out[out]++;
+        m_in[in]++;
+        
+        if(max_num < out) max_num = out;
+        if(max_num < in) max_num = in;
+             
+    }
+    
+    // 연결 정점 찾기
+    int conn;
+    for(int i=1; i<=max_num; i++) {
+        if(m_out[i] >= 2 && m_in[i] == 0) {
+            conn = i;
+            break;
+        }
+    }
+    
+    int total = 0;
+    for(vector<int> e: edges) { 
+        if(e[0] == conn) {
+            m_in[e[1]]--;
+            total++;
+        }
+    }
+    
+    int donut = 0;
+    int bar = 0;
+    int eight = 0;
+    
+    for(int i=1; i<=max_num; i++) {
+        // 막대
+        if(i != conn && m_in[i] == 0) {
+            bar++;
+            continue;
+        }
+        // 8자
+        if(i != conn && m_in[i] == 2) {
+            eight++;
+        }
+    }
+    
+    donut = total - bar - eight;
+    
+    answer.push_back(conn);
+    answer.push_back(donut);
+    answer.push_back(bar);
+    answer.push_back(eight);
+    
+    return answer;
+}
