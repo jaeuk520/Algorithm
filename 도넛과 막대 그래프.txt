@@ -2,11 +2,12 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <set>
 using namespace std;
 
 map<int, int> m_out;
 map<int, int> m_in;
-int max_num = -1;
+set<int> s;
 
 vector<int> solution(vector<vector<int>> edges) {
     vector<int> answer;
@@ -19,14 +20,13 @@ vector<int> solution(vector<vector<int>> edges) {
         m_out[out]++;
         m_in[in]++;
         
-        if(max_num < out) max_num = out;
-        if(max_num < in) max_num = in;
-             
+        s.insert(out);
+        s.insert(in);
     }
     
     // 연결 정점 찾기
     int conn;
-    for(int i=1; i<=max_num; i++) {
+    for(int i: s) {
         if(m_out[i] >= 2 && m_in[i] == 0) {
             conn = i;
             break;
@@ -45,14 +45,15 @@ vector<int> solution(vector<vector<int>> edges) {
     int bar = 0;
     int eight = 0;
     
-    for(int i=1; i<=max_num; i++) {
+    for(int i: s) {
+        if(i == conn) continue;
         // 막대
-        if(i != conn && m_in[i] == 0) {
+        if(m_out[i] == 0) {
             bar++;
             continue;
         }
         // 8자
-        if(i != conn && m_in[i] == 2) {
+        if(m_in[i] == 2 && m_out[i] == 2) {
             eight++;
         }
     }
