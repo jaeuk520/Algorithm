@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+using namespace std;
+
+bool compare2(vector<int> v1, vector<int> v2) {
+    if(v1[0] == v2[0]) return v1[1] > v2[1];
+    return v1[0] < v2[0];
+}
+
+bool compare(vector<int> v1, vector<int> v2) {
+    return (v1[0] + v1[1]) > (v2[0] + v2[1]);
+}
+
+int solution(vector<vector<int>> scores) {
+    
+    if(scores.size() == 1) return 1;
+    
+    vector<int> wanho = scores[0];
+    vector<vector<int>> temp;
+    
+    sort(scores.begin(), scores.end(), compare2);
+    
+    int prev = scores[scores.size()-1][1];
+    temp.push_back(scores[scores.size()-1]);
+    for(int i=scores.size()-2; i>=0; i--) {
+        int num = scores[i][1];
+        if(prev <= num) {
+            prev = num;
+            temp.push_back(scores[i]);
+        } else {
+            if(scores[i] == wanho) return -1;
+        }
+    }
+    
+    sort(temp.begin(), temp.end(), compare);
+    
+    int sum_wanho = wanho[0] + wanho[1];
+    int rank = 1;
+    
+    for(int i=0; i<temp.size(); i++) {
+        
+        int sum = temp[i][0] + temp[i][1];
+        if(sum > sum_wanho) rank++;
+        if(temp[i] == wanho) return rank;
+    }
+    
+    return rank;
+}
