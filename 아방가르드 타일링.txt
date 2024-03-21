@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+const int NUM = 1e9 + 7;
+long long a[100001];
+long long sum[100001];
+
+int solution(int n) {
+    
+    a[0] = 1;
+    a[1] = 1;
+    a[2] = 3;
+    a[3] = 10;
+    a[4] = a[3] + a[2] * 2 + a[1] * 5 + 2;
+    a[5] = a[4] + a[3] * 2 + a[2] * 5 + a[1] * 2 + 2;
+    a[6] = a[5] + a[4] * 2 + a[3] * 5 + a[2] * 2 + a[1] * 2 + 4;
+    
+    sum[0] = 1;
+    sum[1] = 1;
+    sum[2] = 3;
+    sum[3] = 11;
+    sum[4] = a[4] + sum[1];
+    sum[5] = a[5] + sum[2];
+    sum[6] = a[6] + sum[3];
+     for(int i=7; i<=n; i++) {
+         a[i] = a[i-1];
+         a[i] += a[i-2] * 2;
+         a[i] += a[i-3] * 5;
+         a[i] += sum[i-4] * 2;
+         a[i] += sum[i-5] * 2;
+         a[i] += sum[i-6] * 4;
+         a[i] %= NUM;
+         sum[i] = a[i] + sum[i-3];
+         sum[i] %= NUM;
+    }
+    
+    return a[n];
+}
