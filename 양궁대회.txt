@@ -1,0 +1,105 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+map<int, int> m;
+vector<int> win_score;
+int shot;
+int apeach;
+int max_num = -1;
+vector<int> answer_vec;
+
+void dfs(int idx, int cnt, vector<int> v) {
+    
+    if(cnt == shot) {
+        int apeach_ = apeach;
+        int ryan = 0;
+        for(int i=0; i<v.size(); i++) {
+            int score = v[i];
+            if(m[score] != 0) {
+                apeach_ -= score;
+                ryan += score;
+            } else {
+                ryan += score;
+            }
+        }
+        if(max_num < ryan - apeach_) {
+            max_num = ryan - apeach_;
+            answer_vec = v;
+        } else if(max_num == (ryan - apeach_)) {
+            if((v.size() != 0) && (answer_vec.size() != 0)) {
+                if(v[v.size()-1] < answer_vec[answer_vec.size()-1]) {
+                    answer_vec = v;
+                }   
+            }
+        }
+        return;
+    }
+    
+    for(int i=idx-1; i>=0; i--) {
+        int cnt_ = cnt;
+        // if(cnt_ + win_score[10-i] > shot) continue;
+        if(cnt_ + win_score[10-i] <= shot) {
+            v.push_back(i);
+            cnt_ += win_score[10-i];        
+            dfs(i, cnt_, v);
+        } else {
+            dfs(i, shot, v);
+            continue;
+        }
+        // v.push_back(i);
+        // cnt_ += win_score[10-i];        
+        // dfs(i, cnt_, v);
+        v.pop_back();
+    }
+    
+}
+
+vector<int> solution(int n, vector<int> info) {
+    vector<int> answer;
+    
+    for(int i=0; i<info.size(); i++) {
+        if(info[i] != 0) {
+            apeach += 10 - i;
+            m[10-i] += info[i];
+            shot += info[i];
+        }
+    }
+    
+    for(int i=10; i>=0; i--) {
+        win_score.push_back(m[i]+1);
+    }
+    
+    vector<int> v;
+    dfs(11, 0, v);
+    
+    if(max_num == -1 || max_num == 0) {answer.push_back(-1); return answer;}
+    
+    for(int i=0; i<answer_vec.size(); i++) {
+        int score = answer_vec[i];
+    }
+    
+    sort(answer_vec.begin(), answer_vec.end());
+    
+    for(int i=10; i>=0; i--) {
+        if((answer_vec.size() != 0) && (i == answer_vec[answer_vec.size()-1])) {
+            answer.push_back(win_score[10-i]);
+            answer_vec.pop_back();
+        } else {
+            answer.push_back(0);
+        }
+    }
+    
+    int temp = 0;
+    for(int i=0; i<=10; i++) {
+        temp += answer[i];
+    }
+    if(temp != shot) {
+        answer[10] += shot - temp;
+    }
+    
+    return answer;
+}
