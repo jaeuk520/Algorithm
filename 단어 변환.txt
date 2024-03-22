@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+using namespace std;
+
+vector<string> words;
+string target;
+unordered_map<string, int> visit;
+
+int bfs(string begin) {
+    queue<string> q;
+    q.push(begin);
+    visit[begin]++;
+    int answer = 0;
+    
+    while(!q.empty()) {
+        int size = q.size();
+        for(int i=0; i<size; i++) {
+            string str = q.front();
+            q.pop();
+            for(int j=0; j<words.size(); j++) {
+                if(visit[words[j]] != 0) continue;
+                int cnt = 0;
+                for(int k=0; k<words[j].size(); k++) {
+                    if(str[k] != words[j][k]) cnt++;
+                    if(cnt > 1) break;
+                }
+                if(cnt == 1) {
+                    q.push(words[j]);
+                    visit[words[j]]++;
+                    if(words[j] == target) return ++answer;
+                }
+            }
+        }
+        answer++;
+    }
+    return 0;
+}
+
+int solution(string begin, string target_, vector<string> words_) {
+    int answer = 0;
+    words = words_;
+    target = target_;
+    
+    return bfs(begin);
+}
