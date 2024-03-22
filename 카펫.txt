@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <math.h>
+#include <set>
+using namespace std;
+
+vector<int> solution(int brown, int yellow) {
+    vector<int> answer;
+    set<int> s;
+    
+    int total = brown + yellow;
+    for(int i=1; i<=sqrt(total); i++) {
+        if(total % i == 0) {
+            s.insert(i);
+        }
+    }
+    
+    for(int n: s) {
+        int temp;
+        if(n <= 2) temp = 0;
+        temp = (n-2) * (total / n - 2);
+        if((yellow == temp) && (brown == total - temp)) {
+            answer.push_back(total / n);
+            answer.push_back(n);
+            return answer;
+        }
+    }
+    
+    return answer;
+}
