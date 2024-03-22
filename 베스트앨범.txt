@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+#include <algorithm>
+using namespace std;
+
+map<string, int> sum; 
+map<int, string> plays_to_genres;
+map<string, vector<pair<int, int>>> m;
+
+bool compare(int a, int b) {
+    return a > b;
+}
+
+bool compare2(pair<int, int> p1, pair<int, int> p2) {
+    return p1.second > p2.second;
+}
+
+vector<int> solution(vector<string> genres, vector<int> plays) {
+    vector<int> answer;
+    set<string> s;
+    
+    for(int i=0; i<plays.size(); i++) {
+        sum[genres[i]] += plays[i];
+        s.insert(genres[i]);
+        m[genres[i]].push_back(make_pair(i, plays[i]));
+    }
+    
+    vector<int> temp;
+    for(string str: s) {
+        temp.push_back(sum[str]);
+        plays_to_genres[sum[str]] = str;
+    }
+    
+    sort(temp.begin(), temp.end(), compare);
+    
+    for(int n: temp) {
+        string str = plays_to_genres[n];
+        sort(m[str].begin(), m[str].end(), compare2);
+        
+        if(m[str].size() == 1) {
+            answer.push_back(m[str][0].first);
+        } else {
+            answer.push_back(m[str][0].first);
+            answer.push_back(m[str][1].first);
+        }
+    }
+    
+    return answer;
+}
