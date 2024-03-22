@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <set>
+using namespace std;
+
+map<string, int> m;
+
+int solution(vector<vector<string>> clothes) {
+    int answer = 0;
+    
+    set<string> s;
+    
+    for(vector<string> v: clothes) {
+        m[v[1]]++;
+        s.insert(v[1]);
+    }
+    
+    vector<int> temp;
+    
+    for(string str: s) {
+        temp.push_back(++m[str]);
+    }
+    
+    if(temp.size() == 1) return clothes.size();
+    
+    answer = temp[0];
+    for(int i=1; i<temp.size(); i++) {
+        answer *= temp[i];
+    }
+    
+    return --answer;
+}
