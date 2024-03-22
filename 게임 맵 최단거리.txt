@@ -1,0 +1,43 @@
+#include<vector>
+#include<queue>
+using namespace std;
+
+vector<vector<int>> maps;
+bool visit[101][101];
+
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
+
+int bfs() {
+    queue<pair<int,int>> q;
+    q.push(pair<int,int>(0,0));
+    int cnt = 1;
+    while(!q.empty()) {
+        int size = q.size();
+        for(int i=0; i<size; i++) {
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            for(int j=0; j<4; j++) {
+                if(x + dx[j] < 0 || x + dx[j] >= maps.size() || 
+                  y + dy[j] < 0 || y + dy[j] >= maps[0].size()) continue;
+                if(visit[x + dx[j]][y + dy[j]]) continue;
+                if(maps[x + dx[j]][y + dy[j]] == 1) {
+                    visit[x + dx[j]][y + dy[j]] = true;
+                    q.push(pair<int,int>(x + dx[j], y + dy[j]));
+                    if((x + dx[j] == maps.size()-1) && (y + dy[j] == maps[0].size()-1)) return ++cnt;
+                }
+            }
+        }
+        cnt++;
+    }
+    return -1;
+}
+
+int solution(vector<vector<int>> maps_)
+{
+    int answer = 0;
+    maps = maps_;
+    
+    return bfs();
+}
