@@ -1,0 +1,70 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+double p[4] = {0.9, 0.8, 0.7, 0.6};
+vector<int> emoticons;
+vector<vector<int>> users;
+
+int max_plus = -1;
+int max_total = -1;
+
+int change_to_percentage(double d) {
+    if(d == 0.9) return 10;
+    if(d == 0.8) return 20;
+    if(d == 0.7) return 30;
+    if(d == 0.6) return 40;
+}
+
+void dfs(vector<pair<int, int>> v, int idx) {
+    
+    for(int i=0; i < 4; i++) {
+        int sum = emoticons[idx] / 10 * (p[i] * 10);
+        v.push_back(make_pair(change_to_percentage(p[i]), sum));
+        if(idx == emoticons.size() - 1) {
+            int plus = 0;
+            int total_price_sum = 0;
+            for(int i=0; i<users.size(); i++) {
+                int total_price = 0;
+                for(int j=0; j<v.size(); j++) {
+                    int percentage = v[j].first;
+                    int price = v[j].second;
+                    if(users[i][0] <= percentage) {
+                        total_price += price;
+                    }
+                }
+                if(total_price >= users[i][1]) {
+                    plus++;
+                } else {
+                    total_price_sum += total_price;
+                }
+            }
+            if(max_plus < plus) {
+                max_plus = plus;
+                max_total = total_price_sum;
+            }
+            else if(max_plus == plus) {
+                if(max_total < total_price_sum) max_total = total_price_sum;
+            }
+            v.pop_back();
+            if(i == 3) return;
+            continue;
+        }
+        dfs(v, idx + 1);
+        v.pop_back();
+    }
+    
+}
+
+vector<int> solution(vector<vector<int>> users_, vector<int> emoticons_) {
+    vector<int> answer;
+    emoticons = emoticons_;
+    users = users_;
+    
+    vector<pair<int, int>> v;
+    dfs(v, 0);
+    answer.push_back(max_plus);
+    answer.push_back(max_total);
+    return answer;
+}
