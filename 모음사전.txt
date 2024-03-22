@@ -1,0 +1,49 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+vector<string> v;
+string alp[5] = {"A", "E", "I", "O", "U"};
+
+int solution(string word) {
+    int answer = 0;
+    
+    for(int i=0; i<5; i++) {v.push_back(alp[i]);}
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5; j++) {
+            v.push_back(alp[i] + alp[j]);
+        }
+    }
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5; j++) {
+            for(int k=0; k<5; k++) {
+                v.push_back(alp[i] + alp[j] + alp[k]);
+            }
+        }
+    }
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5; j++) {
+            for(int k=0; k<5; k++) {
+                for(int o=0; o<5; o++) {
+                    v.push_back(alp[i] + alp[j] + alp[k] + alp[o]);   
+                }
+            }
+        }
+    }
+    for(int i=0; i<5; i++){
+        for(int j=0; j<5; j++) {
+            for(int k=0; k<5; k++) {
+                for(int o=0; o<5; o++) {
+                    for(int p=0; p<5; p++) {
+                        v.push_back(alp[i] + alp[j] + alp[k] + alp[o] + alp[p]);   
+                    }   
+                }
+            }
+        }
+    }
+    sort(v.begin(), v.end());
+    for(int i=0; i<v.size(); i++) {
+        if(v[i] == word) return ++i;
+    }
+}
