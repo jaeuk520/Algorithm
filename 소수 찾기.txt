@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <math.h>
+#include <map>
+#include <iostream>
+#include <set>
+using namespace std;
+
+map<char, int> m;
+string numbers;
+set<int> s;
+
+bool isPrime(int n) {
+    if(n==0 || n==1) return false;
+    for(int i=2; i<=sqrt(n); i++) {
+        if(n % i == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void dfs(string str) {
+    
+    for(int i=0; i<numbers.size(); i++) {
+        if(m[numbers[i]] == 0) continue;
+        m[numbers[i]]--;
+        str += numbers[i];
+        s.insert(stoi(str));
+        dfs(str);
+        m[numbers[i]]++;
+        str = str.substr(0, str.length() - 1);
+    }
+}
+
+int solution(string numbers_) {
+    int answer = 0;
+    numbers = numbers_;
+    
+    for(char c: numbers) {
+        m[c]++;
+    }
+    
+    dfs("");
+    
+    for(int n: s) {
+        if(isPrime(n)) answer++;
+    }
+    
+    return answer;
+}
