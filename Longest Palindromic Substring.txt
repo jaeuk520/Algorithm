@@ -1,0 +1,27 @@
+#include <algorithm>
+class Solution {
+public:
+    string longestPalindrome(string s) {
+
+        string answer="";
+        answer += s[0];
+        int len=1;
+        for(int i=0; i<s.length()-1; i++) {
+            for(int j=s.length()-1; j>i; j--) {
+                if(s[i] == s[j]) {
+                    string str = s.substr(i, j-i+1);
+                    string rev_str = str;
+                    reverse(rev_str.begin(), rev_str.end());
+                    if(str == rev_str) {
+                        if(len < str.length()) {
+                            answer = str;
+                            len = str.length();
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return answer;
+    }
+};
