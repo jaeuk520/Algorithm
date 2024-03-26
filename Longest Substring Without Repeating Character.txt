@@ -1,0 +1,30 @@
+#include <string.h>
+#include <iostream>
+using namespace std;
+
+int alp[1000];
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if((s.length() == 0) || (s.length() == 1)) {
+            return s.length();
+        }
+        int answer=0;
+        for(int i=0; i<s.length(); i++) {
+            int num=0;
+            for(int j=i; j<s.length(); j++) {
+                if(alp[s[j] - ' '] == 0) {
+                    alp[s[j] - ' ']++;
+                    num++;
+                } else {
+                    memset(alp, 0, sizeof(alp));
+                    if(answer < num) answer = num;
+                    num = 0;
+                }
+            }
+            if(answer < num) answer = num;
+            memset(alp, 0, sizeof(alp));
+        }
+        return answer;
+    }
+};
