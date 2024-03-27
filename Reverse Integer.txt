@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int reverse(int x) {
+        string s = to_string(x);
+        int sum = 0;
+        bool isNat = true;
+        if(s[0] == '-') {
+            isNat = false;
+            s = s.substr(1);
+        }
+        for(int i=0; i<s.length(); i++) {
+            if(pow(10, i) * (s[i] - '0') > INT_MAX) return 0;
+            int temp = pow(10, i) * (s[i] - '0');
+            if((sum / 10 + temp / 10) > INT_MAX / 10) return 0;
+            sum += temp;
+        }
+        if(!isNat) sum *= -1;
+        return sum;
+    }
+};
