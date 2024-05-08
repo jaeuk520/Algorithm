@@ -1,0 +1,57 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+#include <queue>
+using namespace std;
+
+map<string, string> m;
+vector<pair<string, string>> v;
+
+vector<string> solution(vector<string> record) {
+    vector<string> answer;
+    
+    for(string s: record) {
+        string uid = "";
+        string username = "";
+        string cmd = "";
+        int i=0;
+        
+        if(s[0] == 'E') {
+            cmd = "들어왔습니다.";
+            i = 6;
+        } else if(s[0] == 'L') {
+            cmd = "나갔습니다.";
+            i = 6;
+        } else if(s[0] == 'C') {
+            cmd = "Change";
+            i = 7;
+        }
+        
+        for(i; i<s.length(); i++) {
+            if(s[i] == ' ') break;
+            uid += s[i];
+        }
+        
+        if(s[0] != 'C') v.push_back(make_pair(cmd, uid));
+        
+        if(s[0] == 'L') continue;
+        
+        for(++i; i<s.length(); i++) {
+            username += s[i];
+        }
+        
+        m[uid] = username;
+
+    }
+
+    for(int i=0; i<v.size(); i++) {
+        string cmd = v[i].first;
+        string uid = v[i].second;
+        
+        string s = m[uid] + "님이 " + cmd;
+        answer.push_back(s);
+    }
+    
+    return answer;
+}
