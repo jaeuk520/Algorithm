@@ -1,0 +1,55 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+int count;
+int arr[1001][1001];
+
+vector<int> solution(int n) {
+    vector<int> answer;
+    
+    for(int i=1; i<=n; i++) count += i;
+    
+    int start_x = 0;
+    int start_y = 0;
+    int start_x2 = 1;
+    int end_x = n;
+    int end_y = n;
+    int end_y2 = n;
+    int num = 0;
+    
+    while(num < count) {
+        
+        for(int i=start_x; i<=end_x-1; i++) {
+            arr[i][start_y] = ++num;
+            if(num == count) break;
+        }
+        
+        if(num == count) break;
+        for(int i=start_x2; i<=end_y-2; i++) {
+            arr[end_x-1][i] = ++num;
+            if(num == count) break;
+        }
+        
+        if(num == count) break;
+        for(int i=end_x-1, j=end_y-1; i>start_x; i--, j--) {
+            arr[i][j] = ++num;
+            if(num == count) break;
+        }
+        
+        start_x += 2;
+        start_y += 1;
+        start_x2 += 1;
+        end_x -= 1;
+        end_y -= 2;
+    }
+    
+    for(int i=0; i<=n-1; i++) {
+        for(int j=0; j<=i; j++) {
+            if(arr[i][j] != 0) answer.push_back(arr[i][j]);
+        }
+    }
+    
+    return answer;
+}
