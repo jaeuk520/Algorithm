@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+map<int,int> m;
+
+bool compare(pair<int,int> p1, pair<int,int> p2) {
+    return p1.second > p2.second;
+}
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    
+    //시작-끝 중괄호 제거
+    s = s.substr(1, s.length()-2);
+    
+    for(int i=0; i<s.length(); i++) {
+        
+        if(s[i] == ',' || s[i] == '{' || s[i] == '}') continue;
+        
+        //숫자인 경우
+        string temp = "";
+        while((s[i] - '0' >= 0) && (s[i] - '0' <= 9)) {
+            temp += s[i];
+            i++;
+        }
+        i--;
+        m[stoi(temp)] += 1;
+    }
+    
+    vector<pair<int, int>> v;
+    for(int i=1; i<=100000; i++) {
+        if(m[i] == 0) continue;
+        
+        v.push_back(make_pair(i, m[i]));
+    }
+    sort(v.begin(), v.end(), compare);
+    
+    for(pair<int,int> p : v) {
+        answer.push_back(p.first);
+    }
+    
+    return answer;
+}
