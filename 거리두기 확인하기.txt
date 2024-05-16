@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+vector<int> solution(vector<vector<string>> places) {
+    vector<int> answer;
+    
+    for(vector<string> place: places) {
+        bool dFlag = true;
+        for(int i=0; i<place.size(); i++) {
+            for(int j=0; j<place[0].size(); j++) {
+                if(place[i][j] == 'P') {
+                    // 아래 확인
+                    if(i+1 < 5 && place[i+1][j] == 'P') {
+                        answer.push_back(0);
+                        dFlag = false;
+                        break;
+                    }
+                    if(i+2 < 5 && place[i+2][j] == 'P') {
+                        if(place[i+1][j] != 'X') {
+                            answer.push_back(0);
+                            dFlag = false;
+                            break;
+                        }
+                    }
+                    // 오른쪽 확인
+                    if(j+1 < 5 && place[i][j+1] == 'P') {
+                        answer.push_back(0);
+                        dFlag = false;
+                        break;
+                    }
+                    if(j+2 < 5 && place[i][j + 2] == 'P') {
+                        if(place[i][j+1] != 'X') {
+                            answer.push_back(0);
+                            dFlag = false;
+                            break;
+                        }
+                    }
+                    // 대각선 확인
+                    if(i-1 >= 0 && j+1 < 5 && place[i-1][j+1] == 'P') {
+                        if(place[i-1][j] != 'X' || place[i][j+1] != 'X') {
+                            answer.push_back(0);
+                            dFlag = false;
+                            break;
+                        }
+                    if(i+1 < 5 && j+1 < 5 && place[i+1][j+1] == 'P') {
+                        if(place[i+1][j] != 'X' || place[i][j+1] != 'X') {
+                            answer.push_back(0);
+                            dFlag = false;
+                            break;
+                        }
+                    }
+                }
+                if(i == 4 && j == 4 && dFlag) answer.push_back(1);
+            }
+            if(!dFlag) break;
+        }
+    }
+    
+    return answer;
+}
